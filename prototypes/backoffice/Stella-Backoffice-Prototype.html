@@ -24,6 +24,8 @@
       --danger:#7e3d35;
       --danger-soft:#f0d7d2;
       --shadow:0 24px 70px rgba(18,17,14,.10);
+      --shadow-soft:0 14px 34px rgba(18,17,14,.07);
+      --shadow-deep:0 30px 80px rgba(12,12,10,.16);
       --radius:8px;
     }
 
@@ -33,7 +35,7 @@
       margin:0;
       background:
         radial-gradient(circle at top left, rgba(255,255,255,.55), transparent 28%),
-        linear-gradient(180deg, #f8f4ed 0%, var(--paper) 100%);
+        linear-gradient(180deg, #faf7f1 0%, var(--paper) 100%);
       color:var(--ink);
       font-family:"Segoe UI", Arial, sans-serif;
     }
@@ -58,6 +60,8 @@
       display:flex;
       flex-direction:column;
       gap:24px;
+      scrollbar-width:thin;
+      scrollbar-color:rgba(255,255,255,.16) transparent;
     }
 
     .brand{
@@ -104,7 +108,8 @@
     .sidebar-card{
       border:1px solid rgba(255,255,255,.10);
       background:rgba(255,255,255,.03);
-      padding:16px;
+      padding:18px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
     }
 
     .eyebrow{
@@ -160,18 +165,31 @@
       gap:14px;
       text-align:left;
       cursor:pointer;
-      transition:.18s ease;
+      transition:transform .18s ease, background .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease;
+      position:relative;
     }
 
     .nav-btn:hover{
-      background:rgba(255,255,255,.05);
+      background:rgba(255,255,255,.06);
       border-color:rgba(255,255,255,.08);
+      transform:translateX(2px);
     }
 
     .nav-btn.active{
       background:#f5ecdf;
       color:var(--ink);
       border-color:#e2d2bc;
+      box-shadow:var(--shadow-soft);
+    }
+
+    .nav-btn.active::before{
+      content:"";
+      position:absolute;
+      left:-6px;
+      top:10px;
+      bottom:10px;
+      width:2px;
+      background:var(--accent);
     }
 
     .nav-btn .label{
@@ -209,46 +227,80 @@
     .main{
       min-width:0;
       min-height:100vh;
-      padding:24px;
+      padding:24px 24px 30px;
     }
 
     .shell{
       background:rgba(255,255,255,.55);
       border:1px solid rgba(201,183,158,.38);
-      box-shadow:var(--shadow);
+      box-shadow:var(--shadow-deep);
       backdrop-filter:blur(6px);
+      border-radius:8px;
+      overflow:hidden;
     }
 
     .topbar{
-      padding:20px 24px;
+      padding:22px 26px;
       border-bottom:1px solid var(--line);
       display:grid;
-      grid-template-columns:minmax(0,1fr) auto auto;
-      gap:16px;
+      grid-template-columns:minmax(0,1fr) minmax(250px,340px) auto;
+      gap:18px;
       align-items:center;
+      background:linear-gradient(180deg, rgba(255,255,255,.52), rgba(255,255,255,.24));
     }
 
     .topbar h2{
       margin:0;
       font-family:Georgia, serif;
       font-weight:400;
-      font-size:34px;
-      line-height:1;
+      font-size:38px;
+      line-height:.96;
     }
 
     .topbar p{
-      margin:6px 0 0;
+      margin:8px 0 0;
       color:var(--muted);
-      line-height:1.5;
+      line-height:1.55;
       font-size:14px;
+      max-width:560px;
+    }
+
+    .topbar-meta{
+      display:flex;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:12px;
+    }
+
+    .meta-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      min-height:30px;
+      padding:7px 10px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.64);
+      color:var(--muted);
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-weight:700;
+    }
+
+    .meta-chip strong{
+      color:var(--ink);
+      font-size:11px;
+      letter-spacing:.12em;
     }
 
     .search{
-      min-width:280px;
+      min-width:0;
       border:1px solid var(--line);
       background:var(--panel-strong);
-      padding:12px 14px;
+      padding:13px 16px;
       color:var(--ink);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.7);
     }
 
     .segment{
@@ -256,16 +308,18 @@
       grid-auto-flow:column;
       border:1px solid var(--line);
       background:var(--panel-strong);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.7);
     }
 
     .segment button{
       border:0;
       background:transparent;
-      padding:11px 14px;
+      padding:12px 15px;
       min-width:112px;
       cursor:pointer;
       color:var(--muted);
       font-weight:700;
+      transition:background .18s ease, color .18s ease;
     }
 
     .segment button.active{
@@ -274,7 +328,7 @@
     }
 
     .content{
-      padding:24px;
+      padding:28px;
     }
 
     .content.flash{
@@ -299,38 +353,42 @@
       position:relative;
       overflow:hidden;
       border:1px solid var(--line);
-      min-height:240px;
+      min-height:268px;
       color:#fff;
       background:
-        linear-gradient(90deg, rgba(12,15,12,.90), rgba(18,24,18,.56)),
+        linear-gradient(90deg, rgba(12,15,12,.92), rgba(18,24,18,.58)),
         url("../../../Stella-Prototype/assets/stella/images/company/mandorleto-filari-01.jpeg") center/cover;
-      padding:28px;
+      padding:32px;
       display:grid;
       grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);
       gap:24px;
       align-items:end;
+      box-shadow:var(--shadow-soft);
     }
 
     .hero-band h3{
-      margin:0 0 12px;
+      margin:0 0 14px;
       font-family:Georgia, serif;
       font-weight:400;
-      font-size:44px;
+      font-size:48px;
       line-height:.95;
+      max-width:840px;
     }
 
     .hero-band p{
       margin:0;
       max-width:660px;
-      color:rgba(255,255,255,.78);
-      line-height:1.7;
+      color:rgba(255,255,255,.80);
+      line-height:1.75;
+      font-size:15px;
     }
 
     .hero-note{
       border:1px solid rgba(255,255,255,.16);
       background:rgba(255,255,255,.06);
-      padding:18px;
+      padding:18px 18px 20px;
       align-self:start;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
     }
 
     .hero-note strong{
@@ -348,7 +406,7 @@
 
     .grid-4,.grid-3,.grid-2{
       display:grid;
-      gap:18px;
+      gap:20px;
     }
 
     .grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -358,17 +416,18 @@
     .panel{
       background:var(--panel);
       border:1px solid var(--line);
-      padding:20px;
+      padding:22px;
       min-width:0;
+      box-shadow:var(--shadow-soft);
     }
 
-    .panel.tight{padding:16px}
+    .panel.tight{padding:18px}
     .panel-header{
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
       gap:16px;
-      margin-bottom:16px;
+      margin-bottom:18px;
     }
 
     .panel-header h3,
@@ -379,23 +438,34 @@
       line-height:1;
     }
 
-    .panel-header h3{font-size:28px}
-    .panel-header h4{font-size:22px}
+    .panel-header h3{font-size:30px}
+    .panel-header h4{font-size:23px}
 
     .panel-header p{
-      margin:7px 0 0;
+      margin:8px 0 0;
       color:var(--muted);
-      line-height:1.5;
+      line-height:1.6;
       font-size:14px;
     }
 
     .kpi{
       background:var(--panel-strong);
       border:1px solid var(--line);
-      padding:18px;
+      padding:20px;
       display:grid;
-      gap:10px;
-      min-height:152px;
+      gap:12px;
+      min-height:164px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.72);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .kpi::after{
+      content:"";
+      position:absolute;
+      inset:auto 0 0 0;
+      height:2px;
+      background:linear-gradient(90deg, rgba(159,116,64,.70), rgba(159,116,64,0));
     }
 
     .kpi-label{
@@ -408,14 +478,14 @@
 
     .kpi-value{
       font-family:Georgia, serif;
-      font-size:38px;
-      line-height:1;
+      font-size:42px;
+      line-height:.96;
     }
 
     .kpi-meta{
       color:var(--muted);
       font-size:14px;
-      line-height:1.5;
+      line-height:1.6;
     }
 
     .stack{
@@ -436,7 +506,8 @@
     .detail-item{
       border:1px solid var(--line);
       background:var(--panel-strong);
-      padding:14px 15px;
+      padding:15px 16px;
+      transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
     }
 
     .queue-item{
@@ -444,6 +515,16 @@
       grid-template-columns:minmax(0,1fr) auto;
       gap:14px;
       align-items:center;
+    }
+
+    .queue-item:hover,
+    .timeline-item:hover,
+    .detail-item:hover,
+    .pill:hover,
+    .stat-pair:hover{
+      border-color:var(--line-strong);
+      box-shadow:var(--shadow-soft);
+      transform:translateY(-1px);
     }
 
     .queue-item strong,
@@ -473,6 +554,7 @@
       display:grid;
       place-items:center;
       font-weight:800;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
     }
 
     .toolbar{
@@ -492,6 +574,12 @@
       text-transform:uppercase;
       letter-spacing:.12em;
       font-weight:700;
+      transition:background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+    }
+
+    .chip:hover{
+      transform:translateY(-1px);
+      border-color:var(--line-strong);
     }
 
     .chip.active{
@@ -507,13 +595,14 @@
     .split{
       display:grid;
       grid-template-columns:minmax(0,1.55fr) minmax(300px,.95fr);
-      gap:18px;
+      gap:20px;
     }
 
     .table-wrap{
       overflow:auto;
       border:1px solid var(--line);
       background:var(--panel-strong);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.72);
     }
 
     table{
@@ -523,7 +612,7 @@
     }
 
     th,td{
-      padding:14px 16px;
+      padding:15px 16px;
       border-bottom:1px solid var(--line);
       text-align:left;
       vertical-align:top;
@@ -536,18 +625,23 @@
       letter-spacing:.14em;
       text-transform:uppercase;
       font-weight:700;
-      background:#f7f2ea;
+      background:#f8f2e8;
     }
 
     tr:last-child td{border-bottom:0}
 
     .row-link{
       cursor:pointer;
-      transition:.18s ease;
+      transition:background .18s ease, box-shadow .18s ease;
     }
 
     .row-link:hover{
       background:#fbf5ea;
+    }
+
+    .row-link.selected{
+      background:linear-gradient(90deg, rgba(239,224,203,.88), rgba(255,248,239,.9));
+      box-shadow:inset 2px 0 0 var(--accent);
     }
 
     .badge{
@@ -562,6 +656,7 @@
       text-transform:uppercase;
       font-weight:700;
       white-space:nowrap;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.72);
     }
 
     .badge.dark{background:var(--deep);border-color:var(--deep);color:#fff}
@@ -581,22 +676,23 @@
       justify-content:space-between;
       align-items:flex-start;
       gap:16px;
-      margin-bottom:16px;
+      margin-bottom:18px;
     }
 
     .detail-head h4{
       margin:0;
       font-family:Georgia, serif;
-      font-size:30px;
+      font-size:32px;
       font-weight:400;
-      line-height:1;
+      line-height:.98;
     }
 
     .detail-head p{
-      margin:8px 0 0;
+      margin:10px 0 0;
       color:var(--muted);
-      line-height:1.5;
+      line-height:1.6;
       font-size:14px;
+      max-width:560px;
     }
 
     .actions{
@@ -613,6 +709,14 @@
       padding:10px 14px;
       cursor:pointer;
       font-weight:700;
+      transition:transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.72);
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+      border-color:var(--line-strong);
+      box-shadow:var(--shadow-soft);
     }
 
     .btn.primary{
@@ -635,9 +739,10 @@
     .stat-pair{
       display:grid;
       gap:6px;
-      padding:14px;
+      padding:15px;
       border:1px solid var(--line);
       background:var(--panel-strong);
+      transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
     }
 
     .stat-pair span{
@@ -660,7 +765,8 @@
     .pill{
       border:1px solid var(--line);
       background:var(--panel-strong);
-      padding:14px;
+      padding:16px;
+      transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
     }
 
     .pill span{
@@ -679,12 +785,13 @@
     }
 
     .note{
-      padding:15px 16px;
+      padding:16px 18px;
       border:1px solid var(--line);
       background:#f8f1e6;
       color:#6a4c24;
-      line-height:1.55;
+      line-height:1.6;
       font-size:14px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.5);
     }
 
     .mini{
@@ -694,12 +801,272 @@
     }
 
     .empty{
-      padding:18px;
+      padding:20px;
       border:1px dashed var(--line-strong);
       background:rgba(255,255,255,.45);
       color:var(--muted);
-      line-height:1.6;
+      line-height:1.7;
       font-size:14px;
+    }
+
+    .interactive{
+      cursor:pointer;
+    }
+
+    .timestamp{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.5;
+    }
+
+    .timestamp::before{
+      content:"";
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:var(--success);
+      box-shadow:0 0 0 4px rgba(48,86,67,.12);
+      flex:0 0 auto;
+    }
+
+    .workflow{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
+      gap:10px;
+      margin-top:18px;
+    }
+
+    .workflow-step{
+      border:1px solid var(--line);
+      background:var(--panel-strong);
+      padding:12px 12px 14px;
+      display:grid;
+      gap:8px;
+      min-height:92px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.7);
+    }
+
+    .workflow-step span{
+      color:var(--muted);
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-weight:700;
+    }
+
+    .workflow-step strong{
+      font-size:14px;
+      line-height:1.4;
+      font-weight:700;
+    }
+
+    .workflow-step.current{
+      border-color:#d8c09a;
+      background:#fbf2e5;
+      box-shadow:var(--shadow-soft);
+    }
+
+    .workflow-step.done{
+      border-color:#bfd2c3;
+      background:#eff6ef;
+    }
+
+    .workflow-step.pending{
+      opacity:.8;
+    }
+
+    .topline{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
+      margin-bottom:16px;
+    }
+
+    .scrim{
+      position:fixed;
+      inset:0;
+      background:rgba(16,18,16,.42);
+      backdrop-filter:blur(2px);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .18s ease;
+      z-index:70;
+    }
+
+    .scrim.open{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .modal,
+    .drawer{
+      position:fixed;
+      z-index:80;
+      background:var(--panel);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow-deep);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .18s ease, transform .18s ease;
+    }
+
+    .modal{
+      left:50%;
+      top:50%;
+      transform:translate(-50%, -46%);
+      width:min(760px, calc(100vw - 32px));
+      max-height:calc(100vh - 40px);
+      overflow:auto;
+    }
+
+    .modal.open{
+      opacity:1;
+      pointer-events:auto;
+      transform:translate(-50%, -50%);
+    }
+
+    .drawer{
+      top:16px;
+      right:16px;
+      bottom:16px;
+      width:min(460px, calc(100vw - 24px));
+      transform:translateX(24px);
+      overflow:auto;
+    }
+
+    .drawer.open{
+      opacity:1;
+      pointer-events:auto;
+      transform:translateX(0);
+    }
+
+    .surface-head{
+      padding:20px 22px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.54), rgba(255,255,255,.24));
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+    }
+
+    .surface-head h3{
+      margin:0;
+      font-family:Georgia, serif;
+      font-weight:400;
+      font-size:30px;
+      line-height:1;
+    }
+
+    .surface-head p{
+      margin:8px 0 0;
+      color:var(--muted);
+      line-height:1.55;
+      font-size:14px;
+    }
+
+    .surface-body{
+      padding:22px;
+      display:grid;
+      gap:16px;
+    }
+
+    .surface-foot{
+      padding:18px 22px 22px;
+      border-top:1px solid var(--line);
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
+    }
+
+    .form-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:14px;
+    }
+
+    .field{
+      display:grid;
+      gap:8px;
+    }
+
+    .field.full{
+      grid-column:1/-1;
+    }
+
+    .field label{
+      color:var(--muted);
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-weight:700;
+    }
+
+    .field input,
+    .field select,
+    .field textarea{
+      width:100%;
+      border:1px solid var(--line);
+      background:var(--panel-strong);
+      color:var(--ink);
+      padding:13px 14px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.7);
+    }
+
+    .field textarea{
+      min-height:88px;
+      resize:vertical;
+    }
+
+    .toast-stack{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      z-index:90;
+      display:grid;
+      gap:10px;
+      width:min(360px, calc(100vw - 24px));
+    }
+
+    .toast{
+      border:1px solid var(--line);
+      background:rgba(255,253,248,.96);
+      box-shadow:var(--shadow-soft);
+      padding:14px 15px;
+      display:grid;
+      gap:5px;
+      transform:translateY(8px);
+      opacity:0;
+      transition:transform .18s ease, opacity .18s ease;
+    }
+
+    .toast.show{
+      transform:translateY(0);
+      opacity:1;
+    }
+
+    .toast strong{
+      font-size:14px;
+      line-height:1.4;
+    }
+
+    .toast small{
+      color:var(--muted);
+      line-height:1.45;
+      font-size:13px;
+    }
+
+    .linkish{
+      color:var(--accent);
+      font-weight:700;
+      cursor:pointer;
     }
 
     @media (max-width:1280px){
@@ -725,6 +1092,7 @@
         grid-template-columns:1fr;
       }
       .search{min-width:0}
+      .form-grid{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -756,6 +1124,10 @@
         <button class="nav-btn" type="button" data-view-target="orders">
           <span class="label"><span class="mono">OR</span><span>Ordini</span></span>
           <span class="meta">B2C / B2B</span>
+        </button>
+        <button class="nav-btn" type="button" data-view-target="movements">
+          <span class="label"><span class="mono">MV</span><span>Ingressi &amp; Movimenti</span></span>
+          <span class="meta">Raw batch</span>
         </button>
         <button class="nav-btn" type="button" data-view-target="warehouse">
           <span class="label"><span class="mono">MG</span><span>Magazzino</span></span>
@@ -806,6 +1178,11 @@
           <div>
             <h2 id="viewTitle">Dashboard</h2>
             <p id="viewCopy">Punto di coordinamento giornaliero tra ordini, lotti, anomalie e amministrazione.</p>
+            <div class="topbar-meta">
+              <span class="meta-chip"><strong>Live</strong> Operativita quotidiana</span>
+              <span class="meta-chip"><strong>Priorita</strong> Ordini, lotti e documenti</span>
+              <span class="meta-chip"><strong>Ambiente</strong> Prototipo cliente</span>
+            </div>
           </div>
           <input class="search" type="text" value="Ricerca per ordine, lotto, cliente o documento">
           <div class="segment" aria-label="Vista ruolo">
@@ -865,10 +1242,10 @@
                   </div>
                 </div>
                 <div class="queue-list">
-                  <div class="queue-item"><div><strong>Nuovi ordini B2C da prendere in carico</strong><small>Pagamento confermato, picking non avviato.</small></div><div class="count">6</div></div>
-                  <div class="queue-item"><div><strong>Ordini B2B in attesa di conferma commerciale</strong><small>Prezzo, resa e data spedizione da validare.</small></div><div class="count">2</div></div>
-                  <div class="queue-item"><div><strong>Documenti fiscali da emettere oggi</strong><small>Ordini chiusi logisticamente ma non ancora fatturati.</small></div><div class="count">3</div></div>
-                  <div class="queue-item"><div><strong>Lotti con controllo qualita in scadenza</strong><small>Check finale prima del confezionamento.</small></div><div class="count">4</div></div>
+                  <div class="queue-item interactive" data-view-link="orders"><div><strong>Nuovi ordini B2C da prendere in carico</strong><small>Pagamento confermato, picking non avviato.</small></div><div class="count">6</div></div>
+                  <div class="queue-item interactive" data-view-link="orders"><div><strong>Ordini B2B in attesa di conferma commerciale</strong><small>Prezzo, resa e data spedizione da validare.</small></div><div class="count">2</div></div>
+                  <div class="queue-item interactive" data-view-link="invoices"><div><strong>Documenti fiscali da emettere oggi</strong><small>Ordini chiusi logisticamente ma non ancora fatturati.</small></div><div class="count">3</div></div>
+                  <div class="queue-item interactive" data-view-link="lots"><div><strong>Lotti con controllo qualita in scadenza</strong><small>Check finale prima del confezionamento.</small></div><div class="count">4</div></div>
                 </div>
               </article>
 
@@ -946,15 +1323,15 @@
                   <p>Separazione chiara tra B2C e B2B, con stato pagamento, logistica e fatturazione leggibili nello stesso piano.</p>
                 </div>
                 <div class="actions">
-                  <button class="btn soft" type="button">Nuovo ordine B2B</button>
-                  <button class="btn primary" type="button">Apri coda picking</button>
+                  <button class="btn soft" type="button" data-demo-action="new-b2b-order">Nuovo ordine B2B</button>
+                  <button class="btn primary" type="button" data-demo-action="open-picking">Apri coda picking</button>
                 </div>
               </div>
-              <div class="toolbar" id="orderFilters">
-                <button class="chip active" type="button" data-order-filter="all">Tutti</button>
-                <button class="chip" type="button" data-order-filter="B2C">B2C</button>
-                <button class="chip" type="button" data-order-filter="B2B">B2B</button>
-                <button class="chip ghost" type="button" data-order-filter="anomaly">Anomalie</button>
+                <div class="toolbar" id="orderFilters">
+                  <button class="chip active" type="button" data-order-filter="all">Tutti</button>
+                  <button class="chip" type="button" data-order-filter="B2C">B2C</button>
+                  <button class="chip" type="button" data-order-filter="B2B">B2B</button>
+                  <button class="chip ghost" type="button" data-order-filter="anomaly">Anomalie</button>
               </div>
             </div>
 
@@ -986,9 +1363,9 @@
                     <p id="orderSubtitle">Ordine B2C da checkout ospite, pagamento confermato e picking avviato.</p>
                   </div>
                   <div class="actions">
-                    <button class="btn" type="button">Rilascia riserva</button>
-                    <button class="btn soft" type="button">Apri spedizione</button>
-                    <button class="btn primary" type="button">Chiudi fattura</button>
+                    <button class="btn" type="button" data-demo-action="release-reserve">Rilascia riserva</button>
+                    <button class="btn soft" type="button" data-demo-action="open-shipment-drawer">Apri spedizione</button>
+                    <button class="btn primary" type="button" data-demo-action="new-invoice">Chiudi fattura</button>
                   </div>
                 </div>
 
@@ -997,6 +1374,19 @@
                   <div class="stat-pair"><span>Account</span><strong id="orderAccount">Canale diretto</strong></div>
                   <div class="stat-pair"><span>Riserve stock</span><strong id="orderReserve">2 righe riservate</strong></div>
                   <div class="stat-pair"><span>Spedizione</span><strong id="orderShipment">Tracking da generare</strong></div>
+                </div>
+
+                <div class="topline" style="margin-top:18px">
+                  <div class="timestamp" id="orderTimestamp">Aggiornato oggi alle 09:18</div>
+                  <span class="badge warning" id="orderPriorityBadge">Priorita alta</span>
+                </div>
+
+                <div class="workflow" id="orderWorkflow">
+                  <div class="workflow-step done"><span>01</span><strong>Creato</strong></div>
+                  <div class="workflow-step done"><span>02</span><strong>Pagato</strong></div>
+                  <div class="workflow-step current"><span>03</span><strong>Preparazione</strong></div>
+                  <div class="workflow-step pending"><span>04</span><strong>Spedizione</strong></div>
+                  <div class="workflow-step pending"><span>05</span><strong>Fattura chiusa</strong></div>
                 </div>
 
                 <div class="panel-header" style="margin-top:18px">
@@ -1045,8 +1435,8 @@
                     <p>Pasticceria e bottega. Cliente business con listino dedicato, ordini ricorrenti e fatturazione differita.</p>
                   </div>
                   <div class="actions">
-                    <button class="btn" type="button">Note commerciali</button>
-                    <button class="btn primary" type="button">Nuovo ordine</button>
+                  <button class="btn" type="button" data-demo-action="open-client-drawer">Note commerciali</button>
+                  <button class="btn primary" type="button" data-demo-action="new-b2b-order">Nuovo ordine</button>
                   </div>
                 </div>
 
@@ -1067,6 +1457,115 @@
                   <div class="pill"><span>B2C</span><strong>Storico ordini, indirizzi, documenti collegati.</strong></div>
                   <div class="pill"><span>B2B</span><strong>Condizioni, note account, richieste, frequenza acquisto.</strong></div>
                   <div class="pill"><span>Dati fiscali</span><strong>Necessari per coerenza con Fatture e chiusura ordini.</strong></div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="view" data-view="movements">
+            <div class="grid-4">
+              <article class="kpi"><span class="kpi-label">Arrivi da registrare</span><strong class="kpi-value">3</strong><div class="kpi-meta">Due carichi da fornitore e un rientro da lavorazione esterna.</div></article>
+              <article class="kpi"><span class="kpi-label">Raw batch creati oggi</span><strong class="kpi-value">5</strong><div class="kpi-meta">Tutti con posizione assegnata e peso iniziale verificato.</div></article>
+              <article class="kpi"><span class="kpi-label">Rettifiche aperte</span><strong class="kpi-value">2</strong><div class="kpi-meta">Una differenza peso e una correzione posizione magazzino.</div></article>
+              <article class="kpi"><span class="kpi-label">Trasformazioni batch</span><strong class="kpi-value">4</strong><div class="kpi-meta">Process batch in corso tra pelatura, granella e farina.</div></article>
+            </div>
+
+            <div class="grid-2">
+              <article class="panel">
+                <div class="panel-header">
+                  <div>
+                    <h3>Ingresso filiera</h3>
+                    <p>La registrazione manuale dell'arrivo merce rende leggibile l'origine del lotto prima ancora di stock e ordini.</p>
+                  </div>
+                  <div class="actions">
+                    <button class="btn soft" type="button" data-demo-action="new-arrival">Nuovo arrivo</button>
+                    <button class="btn primary" type="button" data-demo-action="new-raw-batch">Crea raw batch</button>
+                  </div>
+                </div>
+                <div class="queue-list">
+                  <div class="detail-item"><strong>ARR-058 - Mandorla con guscio / Fornitore Puglia Alta</strong><small>2.450 kg, baia ricevimento 2, controllo qualita iniziale in attesa.</small></div>
+                  <div class="detail-item"><strong>ARR-059 - Mandorla naturale / Conferimento interno Stella</strong><small>820 kg, magazzino M1-A03, raw batch da aprire per tracciabilita.</small></div>
+                  <div class="detail-item"><strong>ARR-060 - Rientro lavorazione esterna</strong><small>Granella media 180 kg, verifica peso netto e documentazione ingresso.</small></div>
+                </div>
+              </article>
+
+              <article class="panel">
+                <div class="detail-head">
+                  <div>
+                    <div class="status-row">
+                      <span class="badge accent">Raw batch</span>
+                      <span class="badge warning">Qualita iniziale</span>
+                    </div>
+                    <h4>ST-RAW-2405-12</h4>
+                    <p>Lotto origine creato da arrivo merce con peso iniziale, posizione magazzino e stato qualita registrati come primo punto reale della filiera.</p>
+                  </div>
+                  <div class="actions">
+                    <button class="btn" type="button" data-demo-action="open-quality-drawer">Apri controllo</button>
+                    <button class="btn soft" type="button" data-demo-action="stock-adjustment">Rettifica peso</button>
+                    <button class="btn primary" type="button" data-demo-action="new-transformation">Avvia trasformazione</button>
+                  </div>
+                </div>
+
+                <div class="two-col">
+                  <div class="stat-pair"><span>Peso iniziale</span><strong>2.450 kg</strong></div>
+                  <div class="stat-pair"><span>Quantita unita</span><strong>98 colli</strong></div>
+                  <div class="stat-pair"><span>Posizione</span><strong>M1-A02</strong></div>
+                  <div class="stat-pair"><span>Qualita iniziale</span><strong>In verifica visiva</strong></div>
+                </div>
+
+                <div class="workflow">
+                  <div class="workflow-step done"><span>01</span><strong>Arrivo registrato</strong></div>
+                  <div class="workflow-step current"><span>02</span><strong>Raw batch creato</strong></div>
+                  <div class="workflow-step pending"><span>03</span><strong>Qualita iniziale</strong></div>
+                  <div class="workflow-step pending"><span>04</span><strong>Disponibile a stock</strong></div>
+                </div>
+
+                <div class="note" style="margin-top:16px">Questa vista lega subito arrivo merce, raw batch, qualita iniziale e disponibilita. E il punto in cui la piattaforma smette di sembrare solo commerciale e comincia a sembrare davvero industriale-agricola.</div>
+              </article>
+            </div>
+
+            <div class="split">
+              <article class="panel tight">
+                <div class="panel-header">
+                  <div>
+                    <h3>Registro movimenti</h3>
+                    <p>Carichi, scarichi, rettifiche e trasformazioni in una lettura unica di magazzino.</p>
+                  </div>
+                </div>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Movimento</th>
+                        <th>Tipo</th>
+                        <th>Lotto</th>
+                        <th>Peso / quantita</th>
+                        <th>Posizione</th>
+                        <th>Stato</th>
+                      </tr>
+                    </thead>
+                    <tbody id="movementsTable"></tbody>
+                  </table>
+                </div>
+              </article>
+
+              <article class="panel">
+                <div class="panel-header">
+                  <div>
+                    <h3>Trasformazioni batch</h3>
+                    <p>Il modulo mostra come un lotto origine evolve in process batch e packed batch senza perdere continuita operativa.</p>
+                  </div>
+                </div>
+                <div class="timeline">
+                  <div class="timeline-item"><strong>TR-021 - Pelatura su ST-RAW-2405-12</strong><small>Output previsto: ST-PRC-2405-15, resa stimata 1.840 kg, qualita post-processo obbligatoria.</small></div>
+                  <div class="timeline-item"><strong>TR-019 - Macinatura fine su ST-PRC-2405-11</strong><small>Output in farina di mandorla, due lotti destinati a confezionamento retail e uno a B2B.</small></div>
+                  <div class="timeline-item"><strong>RT-006 - Rettifica manuale</strong><small>Differenza di 12 kg dopo ricontrollo peso netto, audit richiesto.</small></div>
+                </div>
+                <div class="pill-list" style="margin-top:16px">
+                  <div class="pill"><span>Arrivo merce</span><strong>Registra fornitore, peso, colli, posizione e stato iniziale.</strong></div>
+                  <div class="pill"><span>Raw batch</span><strong>Apre la genealogia reale del lotto all'ingresso.</strong></div>
+                  <div class="pill"><span>Movimenti stock</span><strong>Rendono leggibile cosa entra, si sposta, si rettifica o si consuma.</strong></div>
+                  <div class="pill"><span>Trasformazioni</span><strong>Collegano origine, processo e disponibilita finale.</strong></div>
                 </div>
               </article>
             </div>
@@ -1129,8 +1628,8 @@
                     <p>Il cuore operativo di Stella: stato, genealogia, controlli, documenti e QR.</p>
                   </div>
                   <div class="actions">
-                    <button class="btn soft" type="button">Nuovo raw batch</button>
-                    <button class="btn primary" type="button">Nuovo packed batch</button>
+                    <button class="btn soft" type="button" data-demo-action="new-raw-batch">Nuovo raw batch</button>
+                    <button class="btn primary" type="button" data-demo-action="new-packed-batch">Nuovo packed batch</button>
                   </div>
                 </div>
                 <div class="table-wrap">
@@ -1157,21 +1656,34 @@
                       <span class="badge">Packed batch</span>
                       <span class="badge accent">QR attivo</span>
                     </div>
-                    <h4>ST-PCK-2405-07</h4>
-                    <p>Mandorla naturale - Selezione Stella. Lotto confezionato collegato a processo e materia prima d'origine.</p>
+                    <h4 id="lotTitle">ST-PCK-2405-07</h4>
+                    <p id="lotSubtitle">Mandorla naturale - Selezione Stella. Lotto confezionato collegato a processo e materia prima d'origine.</p>
                   </div>
                   <div class="actions">
-                    <button class="btn" type="button">Storico stati</button>
-                    <button class="btn soft" type="button">Apri controllo</button>
-                    <button class="btn primary" type="button">Mostra QR</button>
+                    <button class="btn" type="button" data-demo-action="lot-history">Storico stati</button>
+                    <button class="btn soft" type="button" data-demo-action="open-quality-drawer">Apri controllo</button>
+                    <button class="btn primary" type="button" data-demo-action="show-qr">Mostra QR</button>
                   </div>
                 </div>
 
                 <div class="two-col">
-                  <div class="stat-pair"><span>Genealogia monte</span><strong>ST-PRC-2405-11 / ST-RAW-2405-03</strong></div>
-                  <div class="stat-pair"><span>Disponibile</span><strong>148 confezioni</strong></div>
-                  <div class="stat-pair"><span>Certificazione</span><strong>Verifica BIO valida</strong></div>
-                  <div class="stat-pair"><span>Ordini collegati</span><strong>OR-208, OR-211, OR-214</strong></div>
+                  <div class="stat-pair"><span>Genealogia monte</span><strong id="lotGenealogy">ST-PRC-2405-11 / ST-RAW-2405-03</strong></div>
+                  <div class="stat-pair"><span>Disponibile</span><strong id="lotAvailable">148 confezioni</strong></div>
+                  <div class="stat-pair"><span>Certificazione</span><strong id="lotCertification">Verifica BIO valida</strong></div>
+                  <div class="stat-pair"><span>Ordini collegati</span><strong id="lotOrders">OR-208, OR-211, OR-214</strong></div>
+                </div>
+
+                <div class="topline" style="margin-top:18px">
+                  <div class="timestamp">Ultimo aggiornamento lotto alle 08:56</div>
+                  <span class="badge accent">QR pubblicato</span>
+                </div>
+
+                <div class="workflow">
+                  <div class="workflow-step done"><span>01</span><strong>Origine</strong></div>
+                  <div class="workflow-step done"><span>02</span><strong>Processo</strong></div>
+                  <div class="workflow-step done"><span>03</span><strong>Confezionamento</strong></div>
+                  <div class="workflow-step current"><span>04</span><strong>Disponibile</strong></div>
+                  <div class="workflow-step done"><span>05</span><strong>QR attivo</strong></div>
                 </div>
 
                 <div class="panel-header" style="margin-top:18px">
@@ -1186,6 +1698,7 @@
                   <div class="pill"><span>Documenti</span><strong>Certificazioni, note e QR pubblici collegati.</strong></div>
                   <div class="pill"><span>Riserve</span><strong>Viste insieme agli ordini che consumano il lotto.</strong></div>
                 </div>
+                <div class="note" style="margin-top:16px">Il modulo Lotti deve sembrare il centro nervoso di Stella: non una scheda tecnica, ma il punto in cui si incontrano prodotto, qualita, stock, ordini e tracciabilita.</div>
               </article>
             </div>
           </section>
@@ -1239,8 +1752,8 @@
                     <p>Una scrivania logistica chiara, non solo una colonna in piu sugli ordini.</p>
                   </div>
                   <div class="actions">
-                    <button class="btn soft" type="button">Apri coda B2C</button>
-                    <button class="btn primary" type="button">Apri coda B2B</button>
+                    <button class="btn soft" type="button" data-demo-action="open-b2c-shipping">Apri coda B2C</button>
+                    <button class="btn primary" type="button" data-demo-action="open-b2b-shipping">Apri coda B2B</button>
                   </div>
                 </div>
                 <div class="table-wrap">
@@ -1292,8 +1805,8 @@
                     <p>Il modulo che mancava: stato amministrativo distinto da stato logistico, con vista unica sugli ordini.</p>
                   </div>
                   <div class="actions">
-                    <button class="btn" type="button">Export</button>
-                    <button class="btn primary" type="button">Nuovo documento</button>
+                    <button class="btn" type="button" data-demo-action="export-documents">Export</button>
+                    <button class="btn primary" type="button" data-demo-action="new-invoice">Nuovo documento</button>
                   </div>
                 </div>
                 <div class="table-wrap">
@@ -1316,24 +1829,32 @@
                 <div class="detail-head">
                   <div>
                     <div class="status-row">
-                      <span class="badge accent">B2B</span>
-                      <span class="badge warning">Da verificare</span>
+                      <span class="badge accent" id="invoiceChannelBadge">B2B</span>
+                      <span class="badge warning" id="invoiceStatusBadge">Da verificare</span>
                     </div>
-                    <h4>FT-0392</h4>
-                    <p>Documento collegato a OR-214. Il flusso amministrativo e separato ma leggibile insieme a ordine e spedizione.</p>
+                    <h4 id="invoiceTitle">FT-0392</h4>
+                    <p id="invoiceSubtitle">Documento collegato a OR-214. Il flusso amministrativo e separato ma leggibile insieme a ordine e spedizione.</p>
                   </div>
                   <div class="actions">
-                    <button class="btn" type="button">Apri cliente</button>
-                    <button class="btn soft" type="button">Correggi dati</button>
-                    <button class="btn primary" type="button">Conferma emissione</button>
+                    <button class="btn" type="button" data-demo-action="open-client-drawer">Apri cliente</button>
+                    <button class="btn soft" type="button" data-demo-action="fix-tax-data">Correggi dati</button>
+                    <button class="btn primary" type="button" data-demo-action="confirm-invoice">Conferma emissione</button>
                   </div>
                 </div>
 
                 <div class="queue-list">
-                  <div class="detail-item"><strong>Ordine collegato: OR-214</strong><small>B2B, spedizione pronta, chiusura sospesa per verifica partita IVA.</small></div>
-                  <div class="detail-item"><strong>Dati fiscali</strong><small>Ragione sociale valida, codice SDI da completare.</small></div>
-                  <div class="detail-item"><strong>Export amministrativo</strong><small>Il documento entrera nell'export serale appena confermato.</small></div>
+                  <div class="detail-item"><strong id="invoiceOrderTitle">Ordine collegato: OR-214</strong><small id="invoiceOrderCopy">B2B, spedizione pronta, chiusura sospesa per verifica partita IVA.</small></div>
+                  <div class="detail-item"><strong>Dati fiscali</strong><small id="invoiceTaxCopy">Ragione sociale valida, codice SDI da completare.</small></div>
+                  <div class="detail-item"><strong>Export amministrativo</strong><small id="invoiceExportCopy">Il documento entrera nell'export serale appena confermato.</small></div>
                 </div>
+                <div class="workflow">
+                  <div class="workflow-step done"><span>01</span><strong>Dati ordine</strong></div>
+                  <div class="workflow-step current"><span>02</span><strong>Verifica fiscale</strong></div>
+                  <div class="workflow-step pending"><span>03</span><strong>Emissione</strong></div>
+                  <div class="workflow-step pending"><span>04</span><strong>Export</strong></div>
+                  <div class="workflow-step pending"><span>05</span><strong>Chiusura</strong></div>
+                </div>
+                <div class="note" style="margin-top:16px">In questa vista il valore non e solo amministrativo: il documento dialoga con ordine, spedizione e anagrafica fiscale, quindi la chiusura sembra parte di un flusso reale.</div>
               </article>
             </div>
           </section>
@@ -1383,6 +1904,39 @@
     </main>
   </div>
 
+  <div class="scrim" id="scrim"></div>
+
+  <section class="modal" id="demoModal" aria-hidden="true">
+    <div class="surface-head">
+      <div>
+        <h3 id="modalTitle">Nuova operazione</h3>
+        <p id="modalCopy">Form simulato per raccontare il flusso durante la demo cliente.</p>
+      </div>
+      <button class="btn" type="button" data-close-surface="modal">Chiudi</button>
+    </div>
+    <div class="surface-body" id="modalBody"></div>
+    <div class="surface-foot">
+      <div class="timestamp" id="modalTimestamp">Bozza pronta per la demo</div>
+      <div class="actions">
+        <button class="btn" type="button" data-close-surface="modal">Annulla</button>
+        <button class="btn primary" type="button" id="modalConfirm">Conferma simulata</button>
+      </div>
+    </div>
+  </section>
+
+  <aside class="drawer" id="demoDrawer" aria-hidden="true">
+    <div class="surface-head">
+      <div>
+        <h3 id="drawerTitle">Dettaglio operativo</h3>
+        <p id="drawerCopy">Pannello di supporto per la demo.</p>
+      </div>
+      <button class="btn" type="button" data-close-surface="drawer">Chiudi</button>
+    </div>
+    <div class="surface-body" id="drawerBody"></div>
+  </aside>
+
+  <div class="toast-stack" id="toastStack"></div>
+
   <script>
     const viewMeta = {
       dashboard: {
@@ -1392,6 +1946,10 @@
       orders: {
         title: "Ordini",
         copy: "Vista unica per ordini B2C e B2B con stato pagamento, logistica e fatturazione."
+      },
+      movements: {
+        title: "Ingressi & Movimenti",
+        copy: "Punto di ingresso della filiera: arrivi merce, raw batch, movimenti stock, rettifiche e trasformazioni."
       },
       clients: {
         title: "Clienti",
@@ -1423,7 +1981,7 @@
       }
     };
 
-    const orders = [
+    let orders = [
       {
         code: "OR-208",
         customer: "Giulia Rinaldi",
@@ -1510,14 +2068,22 @@
       ["Valentina Greco", "B2C", "OR-211", "Attivo"]
     ];
 
-    const warehouseRows = [
+    let movementsRows = [
+      ["MOV-142", "Carico ingresso", "ST-RAW-2405-12", "2.450 kg / 98 colli", "M1-A02", "In verifica"],
+      ["MOV-143", "Rettifica peso", "ST-RAW-2405-12", "-12 kg", "M1-A02", "Audit"],
+      ["MOV-144", "Trasformazione batch", "ST-PRC-2405-15", "1.840 kg output", "Processo P2", "In corso"],
+      ["MOV-145", "Spostamento interno", "ST-PCK-2405-07", "36 confezioni", "M2-B04", "Confermato"],
+      ["MOV-146", "Scarico ordine", "ST-PCK-2405-05", "18 confezioni", "Picking", "Confermato"]
+    ];
+
+    let warehouseRows = [
       ["ST-PCK-2405-07", "Mandorla naturale", "148 confezioni", "26", "Conforme"],
       ["ST-PCK-2405-08", "Mandorla pelata", "0", "0", "Bloccato"],
       ["ST-PRC-2405-11", "Farina di mandorla", "82 kg", "14 kg", "In verifica"],
       ["ST-RAW-2405-03", "Mandorla con guscio", "640 kg", "0", "Conforme"]
     ];
 
-    const lotsRows = [
+    let lotsRows = [
       ["ST-PCK-2405-07", "Packed", "Mandorla naturale", "Conforme", "Attivo"],
       ["ST-PCK-2405-08", "Packed", "Mandorla pelata", "Bloccato", "Sospeso"],
       ["ST-PRC-2405-11", "Process", "Farina di mandorla", "In verifica", "Non previsto"],
@@ -1530,13 +2096,13 @@
       ["QC-084", "ST-PCK-2405-08", "KO", "Raffaele Bruno"]
     ];
 
-    const shipmentsRows = [
+    let shipmentsRows = [
       ["SP-124", "OR-208", "B2C", "Da generare", "Picking aperto"],
       ["SP-126", "OR-214", "B2B", "Vettore confermato", "Pronta"],
       ["SP-122", "OR-211", "B2C", "GLS 7782149", "Spedita"]
     ];
 
-    const invoicesRows = [
+    let invoicesRows = [
       ["FT-0392", "OR-214", "Fattura B2B", "Ricami del Sud", "Da verificare"],
       ["FT-0388", "OR-211", "Fattura B2C", "Valentina Greco", "Emessa"],
       ["FT-0386", "OR-208", "Fattura B2C", "Giulia Rinaldi", "Da emettere"]
@@ -1548,12 +2114,85 @@
       ["ST-PCK-2405-05", "Granella di mandorla", "Pubblicata", "Attivo"]
     ];
 
+    const lotDetails = {
+      "ST-PCK-2405-07": {
+        subtitle: "Mandorla naturale - Selezione Stella. Lotto confezionato collegato a processo e materia prima d'origine.",
+        genealogy: "ST-PRC-2405-11 / ST-RAW-2405-03",
+        available: "148 confezioni",
+        certification: "Verifica BIO valida",
+        orders: "OR-208, OR-211, OR-214"
+      },
+      "ST-PCK-2405-08": {
+        subtitle: "Mandorla pelata confezionata. Lotto sospeso dopo controllo packaging con blocco sulla disponibilita.",
+        genealogy: "ST-PRC-2405-10 / ST-RAW-2405-02",
+        available: "0 confezioni",
+        certification: "In revisione",
+        orders: "Nessun ordine assegnabile"
+      },
+      "ST-PRC-2405-11": {
+        subtitle: "Process batch in lavorazione per farina di mandorla, con check qualita e resa ancora in verifica.",
+        genealogy: "ST-RAW-2405-03",
+        available: "82 kg",
+        certification: "Controllo intermedio",
+        orders: "Allocazione B2B in preparazione"
+      },
+      "ST-RAW-2405-03": {
+        subtitle: "Lotto origine in ingresso, base della genealogia e punto iniziale della tracciabilita interna.",
+        genealogy: "Origine fornitore Puglia Alta",
+        available: "640 kg",
+        certification: "Verifica iniziale conclusa",
+        orders: "Nessun ordine diretto"
+      }
+    };
+
+    const invoiceDetails = {
+      "FT-0392": {
+        channel: "B2B",
+        status: "Da verificare",
+        subtitle: "Documento collegato a OR-214. Il flusso amministrativo e separato ma leggibile insieme a ordine e spedizione.",
+        orderTitle: "Ordine collegato: OR-214",
+        orderCopy: "B2B, spedizione pronta, chiusura sospesa per verifica partita IVA.",
+        taxCopy: "Ragione sociale valida, codice SDI da completare.",
+        exportCopy: "Il documento entrera nell'export serale appena confermato."
+      },
+      "FT-0388": {
+        channel: "B2C",
+        status: "Emessa",
+        subtitle: "Documento emesso e associato a OR-211, con spedizione chiusa e storico cliente aggiornato.",
+        orderTitle: "Ordine collegato: OR-211",
+        orderCopy: "B2C, tracking inviato e flusso amministrativo chiuso.",
+        taxCopy: "Dati completi dal checkout, nessuna anomalia.",
+        exportCopy: "Documento gia incluso nell'export giornaliero."
+      },
+      "FT-0386": {
+        channel: "B2C",
+        status: "Da emettere",
+        subtitle: "Documento pronto per OR-208, in attesa della conferma finale di spedizione.",
+        orderTitle: "Ordine collegato: OR-208",
+        orderCopy: "Picking avviato, tracking in preparazione.",
+        taxCopy: "Dati cliente disponibili da checkout ospite.",
+        exportCopy: "Verra incluso nel prossimo export dopo emissione."
+      }
+    };
+
     const navButtons = document.querySelectorAll(".nav-btn");
     const views = document.querySelectorAll(".view");
     const viewTitle = document.getElementById("viewTitle");
     const viewCopy = document.getElementById("viewCopy");
     const content = document.querySelector(".content");
     const main = document.querySelector(".main");
+    const scrim = document.getElementById("scrim");
+    const demoModal = document.getElementById("demoModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalCopy = document.getElementById("modalCopy");
+    const modalBody = document.getElementById("modalBody");
+    const modalConfirm = document.getElementById("modalConfirm");
+    const modalTimestamp = document.getElementById("modalTimestamp");
+    const demoDrawer = document.getElementById("demoDrawer");
+    const drawerTitle = document.getElementById("drawerTitle");
+    const drawerCopy = document.getElementById("drawerCopy");
+    const drawerBody = document.getElementById("drawerBody");
+    const toastStack = document.getElementById("toastStack");
     const ordersTable = document.getElementById("ordersTable");
     const orderFilters = document.getElementById("orderFilters");
     const orderTitle = document.getElementById("orderTitle");
@@ -1564,6 +2203,26 @@
     const orderShipment = document.getElementById("orderShipment");
     const orderTimeline = document.getElementById("orderTimeline");
     const orderBadges = document.getElementById("orderBadges");
+    const orderTimestamp = document.getElementById("orderTimestamp");
+    const orderPriorityBadge = document.getElementById("orderPriorityBadge");
+    const lotTitle = document.getElementById("lotTitle");
+    const lotSubtitle = document.getElementById("lotSubtitle");
+    const lotGenealogy = document.getElementById("lotGenealogy");
+    const lotAvailable = document.getElementById("lotAvailable");
+    const lotCertification = document.getElementById("lotCertification");
+    const lotOrders = document.getElementById("lotOrders");
+    const invoiceChannelBadge = document.getElementById("invoiceChannelBadge");
+    const invoiceStatusBadge = document.getElementById("invoiceStatusBadge");
+    const invoiceTitle = document.getElementById("invoiceTitle");
+    const invoiceSubtitle = document.getElementById("invoiceSubtitle");
+    const invoiceOrderTitle = document.getElementById("invoiceOrderTitle");
+    const invoiceOrderCopy = document.getElementById("invoiceOrderCopy");
+    const invoiceTaxCopy = document.getElementById("invoiceTaxCopy");
+    const invoiceExportCopy = document.getElementById("invoiceExportCopy");
+    let selectedOrderCode = "OR-208";
+    let selectedLotCode = "ST-PCK-2405-07";
+    let selectedInvoiceCode = "FT-0392";
+    let activeModalAction = null;
 
     function badgeClass(value) {
       const normalized = value.toLowerCase();
@@ -1573,6 +2232,235 @@
       if (normalized.includes("b2b")) return "accent";
       return "";
     }
+
+    function nowStamp() {
+      return new Date().toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" });
+    }
+
+    function showToast(title, message) {
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.innerHTML = `<strong>${title}</strong><small>${message}</small>`;
+      toastStack.appendChild(toast);
+      requestAnimationFrame(() => toast.classList.add("show"));
+      setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => toast.remove(), 220);
+      }, 2800);
+    }
+
+    function closeSurfaces() {
+      scrim.classList.remove("open");
+      demoModal.classList.remove("open");
+      demoDrawer.classList.remove("open");
+      demoModal.setAttribute("aria-hidden", "true");
+      demoDrawer.setAttribute("aria-hidden", "true");
+      activeModalAction = null;
+    }
+
+    function openModal(action, config) {
+      activeModalAction = action;
+      modalTitle.textContent = config.title;
+      modalCopy.textContent = config.copy;
+      modalBody.innerHTML = config.body;
+      modalConfirm.textContent = config.confirmLabel || "Conferma simulata";
+      modalTimestamp.textContent = `Bozza aggiornata alle ${nowStamp()}`;
+      scrim.classList.add("open");
+      demoModal.classList.add("open");
+      demoModal.setAttribute("aria-hidden", "false");
+      demoDrawer.classList.remove("open");
+    }
+
+    function openDrawer(title, copy, body) {
+      drawerTitle.textContent = title;
+      drawerCopy.textContent = copy;
+      drawerBody.innerHTML = body;
+      scrim.classList.add("open");
+      demoDrawer.classList.add("open");
+      demoDrawer.setAttribute("aria-hidden", "false");
+      demoModal.classList.remove("open");
+    }
+
+    function buildForm(fields) {
+      return `<div class="form-grid">${fields.join("")}</div>`;
+    }
+
+    function field(label, inputMarkup, full = false) {
+      return `<div class="field ${full ? "full" : ""}"><label>${label}</label>${inputMarkup}</div>`;
+    }
+
+    function renderLotDetail(lotCode) {
+      const detail = lotDetails[lotCode];
+      if (!detail) return;
+      selectedLotCode = lotCode;
+      lotTitle.textContent = lotCode;
+      lotSubtitle.textContent = detail.subtitle;
+      lotGenealogy.textContent = detail.genealogy;
+      lotAvailable.textContent = detail.available;
+      lotCertification.textContent = detail.certification;
+      lotOrders.textContent = detail.orders;
+      document.querySelectorAll("[data-lot]").forEach((row) => row.classList.toggle("selected", row.dataset.lot === selectedLotCode));
+    }
+
+    function renderInvoiceDetail(code) {
+      const detail = invoiceDetails[code];
+      if (!detail) return;
+      selectedInvoiceCode = code;
+      invoiceTitle.textContent = code;
+      invoiceSubtitle.textContent = detail.subtitle;
+      invoiceChannelBadge.textContent = detail.channel;
+      invoiceChannelBadge.className = `badge ${badgeClass(detail.channel)}`;
+      invoiceStatusBadge.textContent = detail.status;
+      invoiceStatusBadge.className = `badge ${badgeClass(detail.status)}`;
+      invoiceOrderTitle.textContent = detail.orderTitle;
+      invoiceOrderCopy.textContent = detail.orderCopy;
+      invoiceTaxCopy.textContent = detail.taxCopy;
+      invoiceExportCopy.textContent = detail.exportCopy;
+      document.querySelectorAll("[data-invoice]").forEach((row) => row.classList.toggle("selected", row.dataset.invoice === selectedInvoiceCode));
+    }
+
+    function refreshOrderMeta(order) {
+      orderTimestamp.textContent = `Aggiornato oggi alle ${nowStamp()}`;
+      orderPriorityBadge.textContent = `Priorita ${order.priority.toLowerCase()}`;
+      orderPriorityBadge.className = `badge ${order.priority === "Alta" ? "warning" : "accent"}`;
+    }
+
+    const modalConfigs = {
+      "new-arrival": {
+        title: "Nuovo arrivo merce",
+        copy: "Simula il primo ingresso reale della filiera: fornitore, peso, posizione e stato qualita iniziale.",
+        confirmLabel: "Registra arrivo",
+        body: buildForm([
+          field("Fornitore", '<input value="Fornitore Puglia Alta">'),
+          field("Data arrivo", `<input value="2026-05-12 ${nowStamp()}">`),
+          field("Prodotto", '<select><option>Mandorla con guscio</option><option>Mandorla naturale</option></select>'),
+          field("Posizione magazzino", '<input value="M1-A02">'),
+          field("Peso iniziale", '<input value="2450 kg">'),
+          field("Quantita colli", '<input value="98">'),
+          field("Stato qualita iniziale", '<select><option>In verifica visiva</option><option>Conforme</option><option>Bloccato</option></select>'),
+          field("Note arrivo", '<textarea>Arrivo con documentazione completa. Campionamento visivo da effettuare in baia 2.</textarea>', true)
+        ])
+      },
+      "new-b2b-order": {
+        title: "Nuovo ordine B2B",
+        copy: "Simula l'inserimento assistito di un ordine business con condizioni commerciali, resa e note logistiche.",
+        confirmLabel: "Crea ordine B2B",
+        body: buildForm([
+          field("Cliente", '<select><option>Ricami del Sud</option><option>Dolce Terra Lab</option></select>'),
+          field("Referente", '<input value="Lucia Palumbo">'),
+          field("Prodotto", '<select><option>Mandorla naturale - Selezione Stella</option><option>Farina di mandorla</option></select>'),
+          field("Formato", '<select><option>5 kg</option><option>10 kg</option><option>25 kg</option></select>'),
+          field("Quantita", '<input value="18 colli">'),
+          field("Condizioni", '<input value="30 giorni data fattura">'),
+          field("Note logistiche", '<textarea>Consegna su bancale singolo. Verificare resa e fascia consegna mattutina.</textarea>', true)
+        ])
+      },
+      "new-invoice": {
+        title: "Nuova fattura",
+        copy: "Simula l'emissione o la chiusura del documento amministrativo collegato a ordine e spedizione.",
+        confirmLabel: "Emetti documento",
+        body: buildForm([
+          field("Ordine collegato", '<select><option>OR-214</option><option>OR-208</option><option>OR-211</option></select>'),
+          field("Tipo documento", '<select><option>Fattura B2B</option><option>Fattura B2C</option></select>'),
+          field("Cliente", '<input value="Ricami del Sud">'),
+          field("Stato fiscale", '<select><option>Da verificare</option><option>Pronto per emissione</option></select>'),
+          field("Export", '<select><option>Export serale</option><option>Export immediato</option></select>'),
+          field("Note amministrative", '<textarea>Verifica codice SDI e chiudi il documento dopo conferma finale spedizione.</textarea>', true)
+        ])
+      },
+      "new-transformation": {
+        title: "Nuova trasformazione batch",
+        copy: "Simula il passaggio da lotto origine a process batch o packed batch, mantenendo continuita di filiera.",
+        confirmLabel: "Avvia trasformazione",
+        body: buildForm([
+          field("Lotto input", '<select><option>ST-RAW-2405-12</option><option>ST-PRC-2405-11</option></select>'),
+          field("Tipo trasformazione", '<select><option>Pelatura</option><option>Macinatura fine</option><option>Granella media</option></select>'),
+          field("Nuovo batch output", '<input value="ST-PRC-2405-15">'),
+          field("Resa prevista", '<input value="1840 kg">'),
+          field("Posizione output", '<input value="Processo P2">'),
+          field("Qualita post-processo", '<select><option>Controllo obbligatorio</option><option>Controllo campione</option></select>'),
+          field("Note processo", '<textarea>Output destinato a una linea retail e una linea B2B. Campionamento a fine fase.</textarea>', true)
+        ])
+      },
+      "new-raw-batch": {
+        title: "Nuovo raw batch",
+        copy: "Apertura rapida di un lotto origine direttamente dal modulo lotti o ingressi.",
+        confirmLabel: "Apri raw batch",
+        body: buildForm([
+          field("Codice lotto", '<input value="ST-RAW-2405-13">'),
+          field("Prodotto", '<select><option>Mandorla con guscio</option><option>Mandorla naturale</option></select>'),
+          field("Peso", '<input value="960 kg">'),
+          field("Posizione", '<input value="M1-B01">'),
+          field("Qualita iniziale", '<select><option>In verifica</option><option>Conforme</option></select>'),
+          field("Origine", '<input value="Conferimento interno Stella">')
+        ])
+      }
+    };
+
+    const drawerConfigs = {
+      "open-shipment-drawer": {
+        title: "Spedizione ordine",
+        copy: "Vista rapida del workflow logistico collegato all'ordine selezionato.",
+        body: `
+          <div class="workflow">
+            <div class="workflow-step done"><span>01</span><strong>Picking</strong></div>
+            <div class="workflow-step current"><span>02</span><strong>Imballo</strong></div>
+            <div class="workflow-step pending"><span>03</span><strong>Tracking</strong></div>
+            <div class="workflow-step pending"><span>04</span><strong>Chiusura</strong></div>
+          </div>
+          <div class="queue-list">
+            <div class="detail-item"><strong>Corriere</strong><small>GLS per B2C, vettore dedicato per OR-214 B2B.</small></div>
+            <div class="detail-item"><strong>Ultimo evento</strong><small>Colli verificati alle ${nowStamp()} e pronti a stampa etichetta.</small></div>
+          </div>`
+      },
+      "open-client-drawer": {
+        title: "Cliente e note commerciali",
+        copy: "Pannello di supporto per raccontare la relazione continuativa con il cliente business.",
+        body: `
+          <div class="queue-list">
+            <div class="detail-item"><strong>Ultimo contatto</strong><small>Ieri alle 17:24 - confermata finestra consegna e listino stagionale.</small></div>
+            <div class="detail-item"><strong>Storico recente</strong><small>6 ordini negli ultimi 90 giorni, mix retail e formato professionale.</small></div>
+            <div class="detail-item"><strong>Nota account</strong><small>Preferisce ricevere conferma documento prima della chiusura spedizione.</small></div>
+          </div>`
+      },
+      "open-quality-drawer": {
+        title: "Controllo qualita",
+        copy: "Mini drawer per simulare checklist, esito e impatto operativo sul lotto.",
+        body: `
+          <div class="workflow">
+            <div class="workflow-step done"><span>01</span><strong>Prelievo</strong></div>
+            <div class="workflow-step current"><span>02</span><strong>Checklist</strong></div>
+            <div class="workflow-step pending"><span>03</span><strong>Esito</strong></div>
+            <div class="workflow-step pending"><span>04</span><strong>Blocco o rilascio</strong></div>
+          </div>
+          <div class="queue-list">
+            <div class="detail-item"><strong>Controllo visivo</strong><small>Packaging, integrita e umidita da confermare.</small></div>
+            <div class="detail-item"><strong>Impatto</strong><small>Se KO, il lotto viene escluso da stock vendibile e assegnazioni ordine.</small></div>
+          </div>`
+      },
+      "lot-history": {
+        title: "Storico stati lotto",
+        copy: "Pannello breve per far vedere il valore della genealogia e delle transizioni operative.",
+        body: `
+          <div class="timeline">
+            <div class="timeline-item"><strong>08:56 - QR pubblicato</strong><small>Vista pubblica aggiornata per packed batch ST-PCK-2405-07.</small></div>
+            <div class="timeline-item"><strong>08:14 - Confezionamento chiuso</strong><small>148 confezioni rese disponibili per vendita e ordini.</small></div>
+            <div class="timeline-item"><strong>Ieri 17:42 - Controllo conforme</strong><small>Rilascio del lotto dopo verifica finale.</small></div>
+          </div>`
+      },
+      "show-qr": {
+        title: "Preview QR pubblico",
+        copy: "Simulazione della vista che il cliente vede dopo la scansione del lotto.",
+        body: `
+          <div class="note">QR attivo per ST-PCK-2405-07. Contenuti pubblici: prodotto, lotto, origine, date chiave e stato della filiera esponibile.</div>
+          <div class="pill-list">
+            <div class="pill"><span>Prodotto</span><strong>Mandorla naturale - Selezione Stella</strong></div>
+            <div class="pill"><span>Origine</span><strong>Puglia</strong></div>
+            <div class="pill"><span>Lotto</span><strong>ST-PCK-2405-07</strong></div>
+            <div class="pill"><span>Stato</span><strong>Tracciabilita pubblicata</strong></div>
+          </div>`
+      }
+    };
 
     function setView(view, options = {}) {
       const targetView = viewMeta[view] ? view : "dashboard";
@@ -1609,7 +2497,7 @@
       });
 
       ordersTable.innerHTML = filtered.map((order) => `
-        <tr class="row-link" data-order="${order.code}">
+        <tr class="row-link ${order.code === selectedOrderCode ? "selected" : ""}" data-order="${order.code}">
           <td><strong>${order.code}</strong><br><span class="mini">${order.subtitle}</span></td>
           <td>${order.customer}</td>
           <td><span class="badge ${badgeClass(order.channel)}">${order.channel}</span></td>
@@ -1624,11 +2512,14 @@
         row.addEventListener("click", () => {
           const order = orders.find((item) => item.code === row.dataset.order);
           renderOrderDetail(order);
+          selectedOrderCode = order.code;
+          document.querySelectorAll("[data-order]").forEach((item) => item.classList.toggle("selected", item.dataset.order === selectedOrderCode));
         });
       });
     }
 
     function renderOrderDetail(order) {
+      selectedOrderCode = order.code;
       orderTitle.textContent = order.code;
       orderSubtitle.textContent = order.subtitle;
       orderCustomer.textContent = order.customer;
@@ -1647,6 +2538,172 @@
           <small>${item.note}</small>
         </div>
       `).join("");
+      refreshOrderMeta(order);
+    }
+
+    function renderLotsTable() {
+      renderTableRows(document.getElementById("lotsTable"), lotsRows, ([lot, type, product, state, qr]) => `
+        <tr class="row-link ${lot === selectedLotCode ? "selected" : ""}" data-lot="${lot}">
+          <td><strong>${lot}</strong></td>
+          <td>${type}</td>
+          <td>${product}</td>
+          <td><span class="badge ${badgeClass(state)}">${state}</span></td>
+          <td><span class="badge ${badgeClass(qr)}">${qr}</span></td>
+        </tr>
+      `);
+
+      document.querySelectorAll("[data-lot]").forEach((row) => {
+        row.addEventListener("click", () => renderLotDetail(row.dataset.lot));
+      });
+    }
+
+    function renderInvoicesTable() {
+      renderTableRows(document.getElementById("invoicesTable"), invoicesRows, ([documentCode, order, type, customer, state]) => `
+        <tr class="row-link ${documentCode === selectedInvoiceCode ? "selected" : ""}" data-invoice="${documentCode}">
+          <td><strong>${documentCode}</strong></td>
+          <td>${order}</td>
+          <td><span class="badge ${badgeClass(type)}">${type}</span></td>
+          <td>${customer}</td>
+          <td><span class="badge ${badgeClass(state)}">${state}</span></td>
+        </tr>
+      `);
+
+      document.querySelectorAll("[data-invoice]").forEach((row) => {
+        row.addEventListener("click", () => renderInvoiceDetail(row.dataset.invoice));
+      });
+    }
+
+    function attachViewLinks() {
+      document.querySelectorAll("[data-view-link]").forEach((item) => {
+        item.addEventListener("click", () => setView(item.dataset.viewLink));
+      });
+    }
+
+    function attachDemoActions() {
+      document.querySelectorAll("[data-demo-action]").forEach((button) => {
+        button.addEventListener("click", () => handleDemoAction(button.dataset.demoAction));
+      });
+      document.querySelectorAll("[data-close-surface]").forEach((button) => {
+        button.addEventListener("click", closeSurfaces);
+      });
+    }
+
+    function handleDemoAction(action) {
+      if (modalConfigs[action]) {
+        openModal(action, modalConfigs[action]);
+        return;
+      }
+      if (drawerConfigs[action]) {
+        openDrawer(drawerConfigs[action].title, drawerConfigs[action].copy, drawerConfigs[action].body);
+        return;
+      }
+
+      const fallbackMessages = {
+        "open-picking": ["Coda picking aperta", "Le priorita di preparazione sono state portate in primo piano per la demo."],
+        "release-reserve": ["Riserva rilasciata", "Simulazione completata: lo stock torna disponibile e l'ordine passa in revisione."],
+        "stock-adjustment": ["Rettifica registrata", "La correzione peso e stata annotata con richiesta di audit interno."],
+        "new-packed-batch": ["Packed batch pronto", "La demo mostra la continuita tra trasformazione, confezionamento e QR."],
+        "open-b2c-shipping": ["Coda B2C aperta", "Spedizioni standard in evidenza con tracking rapido."],
+        "open-b2b-shipping": ["Coda B2B aperta", "Spedizioni business con note vettore e colli dedicati in primo piano."],
+        "export-documents": ["Export preparato", "Il pacchetto documenti e pronto per la chiusura amministrativa di fine giornata."],
+        "fix-tax-data": ["Dati fiscali corretti", "La pratica cliente e stata completata e la fattura puo proseguire."],
+        "confirm-invoice": ["Documento confermato", "La fattura e stata marcata come pronta per emissione ed export."]
+      };
+
+      if (fallbackMessages[action]) {
+        showToast(fallbackMessages[action][0], fallbackMessages[action][1]);
+      }
+    }
+
+    function handleModalConfirm() {
+      if (!activeModalAction) return;
+
+      if (activeModalAction === "new-b2b-order") {
+        const newOrder = {
+          code: "OR-219",
+          customer: "Nuovo cliente B2B",
+          channel: "B2B",
+          payment: "Da approvare",
+          logistics: "In attesa",
+          invoice: "Non avviata",
+          priority: "Alta",
+          anomaly: false,
+          subtitle: "Ordine business creato durante la demo con condizioni dedicate e conferma commerciale da chiudere.",
+          account: "Account demo",
+          reserve: "Riserva da creare",
+          shipment: "Pianificazione in attesa",
+          timeline: [
+            { title: "Ordine B2B creato in demo", note: "Inserimento assistito con listino e condizioni commerciali." },
+            { title: "Conferma commerciale", note: "Resa, data e note logistiche da validare." }
+          ]
+        };
+        orders = [newOrder, ...orders];
+        renderOrders("all");
+        renderOrderDetail(newOrder);
+        setView("orders", { instant: true });
+        showToast("Ordine B2B creato", "La nuova pratica e comparsa in testa alla lista con stato iniziale di validazione.");
+      }
+
+      if (activeModalAction === "new-arrival" || activeModalAction === "new-raw-batch") {
+        movementsRows = [["MOV-147", "Carico ingresso", "ST-RAW-2405-13", "960 kg / 42 colli", "M1-B01", "In verifica"], ...movementsRows];
+        lotsRows = [["ST-RAW-2405-13", "Raw", "Mandorla naturale", "In verifica", "Non previsto"], ...lotsRows];
+        lotDetails["ST-RAW-2405-13"] = {
+          subtitle: "Nuovo lotto origine registrato in demo da arrivo merce o apertura raw batch.",
+          genealogy: "Origine interna Stella",
+          available: "960 kg",
+          certification: "Qualita iniziale da validare",
+          orders: "Nessun ordine diretto"
+        };
+        renderTableRows(document.getElementById("movementsTable"), movementsRows, ([movement, type, lot, weight, position, state]) => `
+          <tr>
+            <td><strong>${movement}</strong></td>
+            <td>${type}</td>
+            <td>${lot}</td>
+            <td>${weight}</td>
+            <td>${position}</td>
+            <td><span class="badge ${badgeClass(state)}">${state}</span></td>
+          </tr>
+        `);
+        renderLotsTable();
+        renderLotDetail("ST-RAW-2405-13");
+        setView("movements", { instant: true });
+        showToast("Ingresso registrato", "Il raw batch e stato creato e collegato subito a posizione, peso e stato qualita iniziale.");
+      }
+
+      if (activeModalAction === "new-invoice") {
+        invoicesRows = [["FT-0396", "OR-219", "Fattura B2B", "Nuovo cliente B2B", "Pronta per emissione"], ...invoicesRows];
+        invoiceDetails["FT-0396"] = {
+          channel: "B2B",
+          status: "Pronta per emissione",
+          subtitle: "Documento creato in demo e gia pronto per export serale.",
+          orderTitle: "Ordine collegato: OR-219",
+          orderCopy: "B2B appena confermato, chiusura amministrativa in corso.",
+          taxCopy: "Dati fiscali completi e validati in anagrafica.",
+          exportCopy: "Inclusione prevista nell'export immediato."
+        };
+        renderInvoicesTable();
+        renderInvoiceDetail("FT-0396");
+        setView("invoices", { instant: true });
+        showToast("Documento creato", "La nuova fattura e visibile nel modulo con stato amministrativo aggiornato.");
+      }
+
+      if (activeModalAction === "new-transformation") {
+        movementsRows = [["MOV-148", "Trasformazione batch", "ST-PRC-2405-16", "1.120 kg output", "Processo P3", "In corso"], ...movementsRows];
+        renderTableRows(document.getElementById("movementsTable"), movementsRows, ([movement, type, lot, weight, position, state]) => `
+          <tr>
+            <td><strong>${movement}</strong></td>
+            <td>${type}</td>
+            <td>${lot}</td>
+            <td>${weight}</td>
+            <td>${position}</td>
+            <td><span class="badge ${badgeClass(state)}">${state}</span></td>
+          </tr>
+        `);
+        setView("movements", { instant: true });
+        showToast("Trasformazione avviata", "Il process batch e stato inserito nel registro movimenti con resa e posizione di lavoro.");
+      }
+
+      closeSurfaces();
     }
 
     navButtons.forEach((button) => {
@@ -1670,6 +2727,17 @@
       </tr>
     `);
 
+    renderTableRows(document.getElementById("movementsTable"), movementsRows, ([movement, type, lot, weight, position, state]) => `
+      <tr>
+        <td><strong>${movement}</strong></td>
+        <td>${type}</td>
+        <td>${lot}</td>
+        <td>${weight}</td>
+        <td>${position}</td>
+        <td><span class="badge ${badgeClass(state)}">${state}</span></td>
+      </tr>
+    `);
+
     renderTableRows(document.getElementById("warehouseTable"), warehouseRows, ([lot, product, available, reserved, state]) => `
       <tr>
         <td><strong>${lot}</strong></td>
@@ -1677,16 +2745,6 @@
         <td>${available}</td>
         <td>${reserved}</td>
         <td><span class="badge ${badgeClass(state)}">${state}</span></td>
-      </tr>
-    `);
-
-    renderTableRows(document.getElementById("lotsTable"), lotsRows, ([lot, type, product, state, qr]) => `
-      <tr>
-        <td><strong>${lot}</strong></td>
-        <td>${type}</td>
-        <td>${product}</td>
-        <td><span class="badge ${badgeClass(state)}">${state}</span></td>
-        <td><span class="badge ${badgeClass(qr)}">${qr}</span></td>
       </tr>
     `);
 
@@ -1709,16 +2767,6 @@
       </tr>
     `);
 
-    renderTableRows(document.getElementById("invoicesTable"), invoicesRows, ([documentCode, order, type, customer, state]) => `
-      <tr>
-        <td><strong>${documentCode}</strong></td>
-        <td>${order}</td>
-        <td><span class="badge ${badgeClass(type)}">${type}</span></td>
-        <td>${customer}</td>
-        <td><span class="badge ${badgeClass(state)}">${state}</span></td>
-      </tr>
-    `);
-
     renderTableRows(document.getElementById("traceabilityTable"), traceRows, ([batch, product, publicState, state]) => `
       <tr>
         <td><strong>${batch}</strong></td>
@@ -1728,8 +2776,20 @@
       </tr>
     `);
 
+    attachViewLinks();
+    attachDemoActions();
+    modalConfirm.addEventListener("click", handleModalConfirm);
+    scrim.addEventListener("click", closeSurfaces);
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeSurfaces();
+    });
+
     renderOrders();
     renderOrderDetail(orders[0]);
+    renderLotsTable();
+    renderLotDetail(selectedLotCode);
+    renderInvoicesTable();
+    renderInvoiceDetail(selectedInvoiceCode);
     setView(window.location.hash.replace("#", ""), { preserveHash: true, instant: true });
 
     window.addEventListener("hashchange", () => {
