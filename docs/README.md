@@ -21,6 +21,7 @@ Questa cartella raccoglie la documentazione organizzata per area.
 
 - `backoffice/`
   - flussi, ruoli, schermate, funzionalita operative
+  - include l'analisi del prototipo attuale e i gap verso il prodotto reale
 
 - `ecommerce/`
   - customer journey, shop, checkout, struttura commerciale

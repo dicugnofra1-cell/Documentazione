@@ -14,6 +14,7 @@ Questo file tiene traccia sintetica delle decisioni, dei cambi di direzione e de
 - Definito che la documentazione servira come ponte tra Codex, ChatGPT e continuita progettuale.
 - Chiarito che il codice reale restera versionato separatamente.
 - Definiti i flussi operativi principali della piattaforma Stella a livello documentale.
+- Analizzato il prototipo attuale del backoffice e definiti gap, schermate mancanti e moduli necessari per trasformarlo in una piattaforma operativa reale.
 
 ### Decisioni
 
@@ -31,6 +32,7 @@ Questo file tiene traccia sintetica delle decisioni, dei cambi di direzione e de
 - importare i documenti gia esistenti
 - organizzare le aree `docs/`, `prototypes/`, `references/`
 - dettagliare moduli e schermate definitive del backoffice a partire dai flussi
+- consolidare la mappa definitiva del backoffice per ruolo, sezione e priorita di sviluppo
 
 ---
 

@@ -8,3 +8,7 @@ Questa sezione raccoglie la documentazione del backoffice Stella.
 - flussi operativi
 - schermate e prototipi
 - requisiti funzionali interni
+
+## Documenti presenti
+
+- [Analisi del prototipo backoffice](./ANALISI_PROTOTIPO_BACKOFFICE.md)
