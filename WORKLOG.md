@@ -13,6 +13,7 @@ Questo file tiene traccia sintetica delle decisioni, dei cambi di direzione e de
 - Separato il ragionamento tra repository di codice e repository di documentazione.
 - Definito che la documentazione servira come ponte tra Codex, ChatGPT e continuita progettuale.
 - Chiarito che il codice reale restera versionato separatamente.
+- Definiti i flussi operativi principali della piattaforma Stella a livello documentale.
 
 ### Decisioni
 
@@ -29,6 +30,7 @@ Questo file tiene traccia sintetica delle decisioni, dei cambi di direzione e de
 - creare struttura iniziale della documentazione
 - importare i documenti gia esistenti
 - organizzare le aree `docs/`, `prototypes/`, `references/`
+- dettagliare moduli e schermate definitive del backoffice a partire dai flussi
 
 ---
 

@@ -27,6 +27,7 @@ Questa cartella raccoglie la documentazione organizzata per area.
 
 - `operations/`
   - lotti, magazzino, workflow, QR, processi interni
+  - include il documento dei flussi operativi completi
 
 - `brand/`
   - tono di voce, direzione stilistica, riferimenti visuali
