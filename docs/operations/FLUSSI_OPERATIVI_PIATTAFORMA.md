@@ -4,10 +4,12 @@
 
 Questo documento definisce i flussi operativi principali della piattaforma Stella prima dell'implementazione reale.
 
+In questa fase il focus non e l'ecommerce come esperienza frontend, ma il modo in cui il backoffice deve governare i flussi interni e amministrativi che nascono dai canali B2C e B2B.
+
 L'obiettivo e trasformare la documentazione esistente in una struttura operativa chiara, utile per:
 
 - definire il perimetro definitivo del prodotto
-- allineare ecommerce, backoffice e processi interni
+- allineare backoffice e processi interni
 - evidenziare schermate mancanti
 - evidenziare moduli mancanti nel backoffice
 
@@ -33,7 +35,61 @@ Prima dei singoli flussi, restano valide queste regole di sistema:
 
 ---
 
-## 1. Flusso ecommerce B2C
+## Distinzione operativa tra B2C e B2B
+
+Prima dei singoli flussi, e utile fissare una distinzione chiara tra i due canali che il backoffice dovra governare.
+
+### B2C
+
+Il canale B2C e orientato a:
+
+- ordini rapidi
+- pagamento immediato o contestuale
+- spedizione standard
+- fatturazione semplificata
+- volumi piu piccoli
+- minore intervento manuale del commerciale
+
+Nel backoffice, il B2C richiede soprattutto:
+
+- presa in carico automatica degli ordini
+- controllo pagamenti
+- code picking e spedizione
+- gestione resi o anomalie ordine
+- collegamento a documenti fiscali essenziali
+
+### B2B
+
+Il canale B2B e orientato a:
+
+- richieste commerciali o ordini inseriti da operatore
+- condizioni dedicate
+- eventuale approvazione manuale
+- logistica piu flessibile
+- documentazione amministrativa piu strutturata
+- maggiore relazione commerciale nel tempo
+
+Nel backoffice, il B2B richiede soprattutto:
+
+- anagrafica cliente completa
+- condizioni commerciali e listini
+- verifica disponibilita e tempi
+- gestione ordini assistiti
+- stato fatturazione e documenti piu espliciti
+- storico relazioni e frequenza ordini
+
+### Impatto sulla piattaforma
+
+La piattaforma non deve quindi avere due sistemi separati, ma un unico backoffice capace di:
+
+- distinguere chiaramente ordini B2C e B2B
+- adattare filtri, stati e azioni disponibili
+- mostrare diversi livelli di dettaglio amministrativo
+- governare priorita operative diverse tra canali
+
+---
+
+## 1. Flusso operativo B2C nel backoffice
 
 ### Obiettivo
 
@@ -60,19 +116,17 @@ Permettere a un cliente privato di consultare il catalogo, acquistare prodotti S
 
 ### Passaggi operativi
 
-1. Il cliente consulta il catalogo disponibile per il canale B2C.
-2. Seleziona prodotto, formato e quantita.
-3. Aggiunge i prodotti al carrello.
-4. Inserisce dati cliente e indirizzo di spedizione/fatturazione.
-5. Sceglie se acquistare come ospite o con account.
-6. Il backend valida disponibilita, prezzi e dati checkout.
-7. Il sistema crea ordine e righe ordine.
-8. Il sistema crea la riserva stock.
-9. Parte il flusso pagamento esterno.
-10. Alla conferma del pagamento, l'ordine passa a `pagato`.
-11. L'ordine entra in preparazione magazzino.
-12. Dopo picking e imballo, l'ordine passa a `spedito`.
-13. A chiusura completata, l'ordine passa a `chiuso`.
+1. Il checkout B2C crea l'ordine e le righe ordine.
+2. Il sistema riconosce il canale come `B2C`.
+3. Il sistema valida disponibilita, prezzi e dati cliente.
+4. Il sistema crea la riserva stock.
+5. Il pagamento viene acquisito o confermato.
+6. Il backoffice riceve l'ordine nella coda `nuovi ordini B2C`.
+7. Il magazzino prende in carico l'ordine pagato.
+8. L'operatore esegue picking, imballo e uscita merce.
+9. Il modulo spedizioni registra tracking e avanzamento.
+10. Il modulo fatture registra il documento fiscale associato.
+11. L'ordine passa a `chiuso` quando spedizione e amministrazione sono coerenti.
 
 ### Schermate mancanti
 
@@ -89,6 +143,7 @@ Permettere a un cliente privato di consultare il catalogo, acquistare prodotti S
 - gestione riserve stock
 - pannello stati pagamento
 - pannello storico cliente B2C
+- stato fatturazione B2C
 
 ---
 
@@ -119,15 +174,17 @@ Gestire clienti business, richieste commerciali, listini, ordini B2B e forniture
 
 ### Passaggi operativi
 
-1. Il cliente business chiede informazioni o listino.
-2. Il commerciale crea o aggiorna l'anagrafica cliente.
-3. Il commerciale definisce condizioni commerciali e prodotti disponibili.
-4. Il cliente invia una richiesta o un ordine B2B.
-5. Il commerciale verifica disponibilita, tempi, formati e eventuali deroghe.
-6. Il sistema registra l'ordine B2B.
+1. Il cliente business chiede informazioni, disponibilita o listino.
+2. Il commerciale crea o aggiorna l'anagrafica cliente B2B.
+3. Il commerciale definisce condizioni commerciali, formati e note operative.
+4. L'ordine B2B puo nascere da richiesta cliente o da inserimento diretto operatore.
+5. Il commerciale verifica disponibilita, tempi, formati e condizioni.
+6. Il sistema registra l'ordine come `B2B`.
 7. Il backend crea righe e riserve stock.
-8. L'ordine entra in lavorazione logistica.
-9. A spedizione avvenuta, il flusso passa ad amministrazione per documenti e fattura.
+8. L'ordine passa a una fase di conferma commerciale o amministrativa, se richiesta.
+9. Il magazzino lavora l'ordine autorizzato.
+10. La spedizione puo prevedere documenti, colli e tempi diversi dal B2C.
+11. Il modulo fatture collega ordine, documento emesso e stato amministrativo.
 
 ### Schermate mancanti
 
@@ -145,6 +202,7 @@ Gestire clienti business, richieste commerciali, listini, ordini B2B e forniture
 - ordini business
 - richieste fornitura / preventivi
 - note commerciali e assegnazione account
+- stato fatturazione B2B
 
 ---
 
@@ -348,6 +406,19 @@ Gestire l'intero ciclo dell'ordine, dalla creazione alla chiusura, per B2C e B2B
 6. In caso di fallimento o annullamento, la riserva viene rilasciata.
 7. In caso di avanzamento corretto, l'ordine passa a logistica e poi a amministrazione.
 
+### Distinzione operativa B2C / B2B
+
+Nel modulo ordini, la distinzione tra canali deve essere immediata.
+
+Per ogni ordine il backoffice dovrebbe mostrare almeno:
+
+- canale ordine: `B2C` o `B2B`
+- stato pagamento
+- stato logistica
+- stato fatturazione
+- priorita operativa
+- eventuale account commerciale assegnato
+
 ### Schermate mancanti
 
 - lista ordini filtrabile per stato
@@ -363,6 +434,7 @@ Gestire l'intero ciclo dell'ordine, dalla creazione alla chiusura, per B2C e B2B
 - audit cambi stato
 - rilascio manuale riserve
 - ricerca ordini per cliente e periodo
+- separazione chiara code B2C e B2B
 
 ---
 
@@ -397,6 +469,18 @@ Gestire preparazione, uscita e chiusura logistica dell'ordine.
 6. L'ordine passa a `spedito`.
 7. A consegna confermata o chiusura amministrativa, l'ordine passa a `chiuso`.
 
+### Distinzione operativa B2C / B2B
+
+Per il B2C la spedizione e di norma piu standardizzata.
+
+Per il B2B la spedizione puo richiedere:
+
+- preparazione su colli o bancali
+- note logistiche dedicate
+- vettore concordato
+- documenti aggiuntivi
+- conferme manuali prima dell'uscita
+
 ### Schermate mancanti
 
 - coda ordini da spedire
@@ -410,6 +494,7 @@ Gestire preparazione, uscita e chiusura logistica dell'ordine.
 - gestione tracking
 - uscita merce collegata ai movimenti
 - filtro ordini pronti da spedire
+- vista distinta spedizioni B2C / B2B
 
 ---
 
@@ -456,10 +541,22 @@ Gestire la predisposizione amministrativa del documento fiscale in coerenza con 
 - dati fiscali cliente strutturati
 - stato fatturazione ordine
 - export per amministrazione
+- distinzione documentale tra B2C e B2B
 
 ### Nota
 
 La documentazione attuale parla chiaramente di ordini e dati cliente, ma la parte fatture non e ancora formalizzata a livello di modulo e modello dati come le altre aree. Va quindi definita meglio prima dell'implementazione.
+
+### Implicazioni per il backoffice
+
+Il modulo Fatture non deve essere visto come semplice appendice degli ordini.
+
+Deve diventare un modulo vero, capace di:
+
+- leggere ordini B2C e B2B
+- mostrare stato amministrativo distinto da stato logistico
+- collegare dati fiscali, documento emesso ed eventuali export
+- segnalare anomalie tra ordine, spedizione e fatturazione
 
 ---
 
@@ -554,6 +651,13 @@ Per rendere la piattaforma davvero operativa, il backoffice definitivo dovrebbe 
 - listini e condizioni commerciali
 - ordini business
 
+### Fatture
+
+- lista documenti
+- dettaglio documento
+- stato fatturazione ordini
+- code anomalie amministrative
+
 ### Tracciabilita
 
 - gestione packed batch
@@ -579,6 +683,7 @@ La documentazione attuale e forte su dominio e dati, ma ci sono ancora moduli da
 5. timeout e rilascio riserve checkout B2C
 6. politiche multi-magazzino o magazzino singolo
 7. struttura definitiva delle checklist qualita
+8. regole operative del modulo fatture
 
 ---
 

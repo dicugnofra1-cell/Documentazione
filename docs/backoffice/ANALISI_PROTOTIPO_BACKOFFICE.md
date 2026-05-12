@@ -4,6 +4,8 @@
 
 Questo documento analizza il prototipo attuale del backoffice Stella e lo trasforma in una base piu coerente per una piattaforma operativa reale.
 
+Per la mappa definitiva dei moduli e delle schermate, va letto insieme a `PIATTAFORMA_OPERATIVA_BACKOFFICE.md`.
+
 L'obiettivo non e giudicare il prototipo come semplice mockup visivo, ma verificare se puo evolvere in un prodotto realmente utilizzabile da:
 
 - amministrazione
@@ -114,6 +116,7 @@ La schermata ordini oggi unisce:
 
 Questo e utile in fase di demo, ma in uso reale rischia di essere troppo stretto per:
 
+- distinzione B2C / B2B
 - filtri complessi
 - cambi stato
 - riserve stock
@@ -261,6 +264,8 @@ Per far sembrare il backoffice un prodotto reale e non un mockup, mancano almeno
 
 - lista ordini con filtri avanzati
 - dettaglio ordine completo
+- coda ordini B2C
+- coda ordini B2B
 - richieste B2B
 - listini / condizioni commerciali
 - stato pagamenti
@@ -277,6 +282,7 @@ Per far sembrare il backoffice un prodotto reale e non un mockup, mancano almeno
 - stato fatturazione ordini
 - anagrafica fiscale cliente
 - documenti emessi
+- coda anomalie fatture
 - export amministrativo
 
 ## 4.7 Produzione
@@ -529,6 +535,7 @@ Il modulo fatture dovrebbe includere:
 - stato fatturazione ordini
 - anagrafiche fiscali
 - documenti emessi
+- coda anomalie amministrative
 - export
 
 ---

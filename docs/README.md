@@ -21,14 +21,14 @@ Questa cartella raccoglie la documentazione organizzata per area.
 
 - `backoffice/`
   - flussi, ruoli, schermate, funzionalita operative
-  - include l'analisi del prototipo attuale e i gap verso il prodotto reale
+  - include l'analisi del prototipo attuale, la mappa operativa della piattaforma e i gap verso il prodotto reale
 
 - `ecommerce/`
   - customer journey, shop, checkout, struttura commerciale
 
 - `operations/`
   - lotti, magazzino, workflow, QR, processi interni
-  - include il documento dei flussi operativi completi
+  - include il documento dei flussi operativi completi con distinzione B2C / B2B e modulo Fatture
 
 - `brand/`
   - tono di voce, direzione stilistica, riferimenti visuali

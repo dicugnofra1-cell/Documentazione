@@ -10,9 +10,9 @@ Il progetto si trova in una fase di strutturazione e allineamento tra:
 
 - backend
 - backoffice
-- ecommerce
 - documentazione
 - direzione di brand
+- flussi operativi
 
 ## Milestone
 
@@ -32,13 +32,23 @@ Il progetto si trova in una fase di strutturazione e allineamento tra:
 
 ### M2 - Backoffice MVP
 
-- prodotti
+- navigazione coerente
+- moduli operativi minimi
+- ordini distinti B2C / B2B
 - lotti
-- movimenti
-- ordini
-- flussi operativi minimi
+- magazzino
+- dashboard leggibile
 
-### M3 - Ecommerce MVP
+### M3 - Operativita interna completa
+
+- movimenti
+- spedizioni
+- fatture
+- qualita
+- code operative per ruolo
+- schermate mancanti del backoffice
+
+### M4 - Ecommerce MVP
 
 - struttura frontend
 - selezione prodotti
@@ -47,13 +57,13 @@ Il progetto si trova in una fase di strutturazione e allineamento tra:
 - account opzionale
 - richieste business
 
-### M4 - Tracciabilita MVP
+### M5 - Tracciabilita MVP
 
 - collegamento lotti / prodotto
 - flussi QR
 - esposizione delle informazioni essenziali
 
-### M5 - Rifinitura e lancio
+### M6 - Rifinitura e lancio
 
 - QA
 - contenuti finali
@@ -66,7 +76,8 @@ Il progetto si trova in una fase di strutturazione e allineamento tra:
 1. mantenere il progetto ordinato
 2. distinguere bene tra stato reale e visione
 3. evitare lavoro duplicato tra codice e documentazione
-4. costruire una base stabile per i prossimi sviluppi
+4. chiudere la mappa definitiva del backoffice operativo
+5. formalizzare modulo Fatture e separazione B2C / B2B
 
 ## Regola di aggiornamento
 
