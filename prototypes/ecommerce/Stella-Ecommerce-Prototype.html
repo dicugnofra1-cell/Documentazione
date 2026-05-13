@@ -1,0 +1,1849 @@
+﻿<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stella Ecommerce Prototype</title>
+  <style>
+    :root{
+      --paper:#f2ece1;
+      --paper-soft:#ece3d5;
+      --paper-deep:#e0d3c2;
+      --ink:#181411;
+      --ink-soft:#645b51;
+      --line:rgba(24,20,17,.14);
+      --warm:#9a7242;
+      --warm-soft:#c5a27a;
+      --olive:#586354;
+      --dark:#131210;
+      --dark-soft:#1c1a18;
+      --dark-warm:#26211c;
+      --mist:rgba(255,250,243,.78);
+      --max:1260px;
+      --shadow:0 30px 80px rgba(13,11,9,.16);
+      --radius:10px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--ink);
+      background:linear-gradient(180deg, #181613 0%, #201b16 14%, #e8dccb 40%, var(--paper) 100%);
+      font-family:"Segoe UI", Arial, sans-serif;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+
+    body.is-ready .reveal,
+    body.is-ready .reveal-soft{
+      transition:opacity .95s ease, transform 1.15s ease;
+    }
+
+    img{display:block;max-width:100%}
+    button,input,select{font:inherit}
+    a{color:inherit;text-decoration:none}
+
+    .site-header{
+      position:fixed;
+      inset:0 0 auto 0;
+      z-index:40;
+      opacity:0;
+      transform:translateY(-110%);
+      transition:opacity .55s ease, transform .7s ease, background .3s ease, border-color .3s ease;
+      border-bottom:1px solid transparent;
+      background:rgba(18,17,15,.16);
+      backdrop-filter:blur(18px);
+    }
+
+    body.show-header .site-header{
+      opacity:1;
+      transform:translateY(0);
+      border-color:rgba(255,248,239,.08);
+      background:rgba(18,17,15,.58);
+    }
+
+    body.scrolled-light .site-header{
+      border-color:rgba(24,20,17,.1);
+      background:rgba(244,237,227,.82);
+    }
+
+    .topbar{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:18px 26px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-width:0;
+    }
+
+    .brand-mark{
+      width:38px;
+      height:38px;
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(255,248,239,.18);
+      color:#f7efe4;
+      font-size:10px;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      background:rgba(255,255,255,.04);
+    }
+
+    body.scrolled-light .brand-mark{
+      border-color:rgba(24,20,17,.16);
+      color:var(--ink);
+      background:rgba(255,255,255,.35);
+    }
+
+    .brand-copy strong{
+      display:block;
+      font-family:Georgia, serif;
+      font-size:25px;
+      font-weight:400;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:#f7efe4;
+    }
+
+    .brand-copy span{
+      display:block;
+      margin-top:4px;
+      font-size:11px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:rgba(247,239,228,.74);
+    }
+
+    body.scrolled-light .brand-copy strong{color:var(--ink)}
+    body.scrolled-light .brand-copy span{color:var(--ink-soft)}
+
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .nav a{
+      position:relative;
+      padding:5px 0;
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:#f6efe4;
+      opacity:.82;
+      transition:opacity .18s ease;
+    }
+
+    .nav a:hover{opacity:1}
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:0;
+      width:100%;
+      height:1px;
+      background:currentColor;
+      transform:scaleX(0);
+      transform-origin:left;
+      transition:transform .25s ease;
+    }
+
+    .nav a:hover::after{transform:scaleX(1)}
+    body.scrolled-light .nav a{color:var(--ink)}
+
+    .header-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .lang-toggle,
+    .ghost-btn,
+    .solid-btn,
+    .filter-btn,
+    .format-btn,
+    .cart-button{
+      border:1px solid transparent;
+      background:none;
+      cursor:pointer;
+      transition:transform .18s ease, opacity .18s ease, border-color .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease;
+    }
+
+    .lang-toggle{
+      display:inline-flex;
+      padding:3px;
+      border-color:rgba(255,248,239,.16);
+      background:rgba(255,255,255,.04);
+    }
+
+    .lang-toggle button{
+      border:none;
+      background:transparent;
+      color:rgba(247,239,228,.68);
+      padding:7px 10px;
+      min-width:40px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:11px;
+      cursor:pointer;
+    }
+
+    .lang-toggle button.active{
+      color:var(--dark);
+      background:#f5ede2;
+    }
+
+    body.scrolled-light .lang-toggle{
+      border-color:rgba(24,20,17,.12);
+      background:rgba(255,255,255,.36);
+    }
+
+    body.scrolled-light .lang-toggle button{color:var(--ink-soft)}
+    body.scrolled-light .lang-toggle button.active{background:var(--dark);color:#f4ede3}
+
+    .cart-button{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 15px;
+      border-color:rgba(255,248,239,.16);
+      color:#f6efe4;
+      background:rgba(255,255,255,.04);
+    }
+
+    body.scrolled-light .cart-button{
+      border-color:rgba(24,20,17,.14);
+      color:var(--ink);
+      background:rgba(255,255,255,.36);
+    }
+
+    .cart-button:hover,
+    .ghost-btn:hover,
+    .solid-btn:hover,
+    .filter-btn:hover,
+    .format-btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .cart-badge{
+      width:24px;
+      height:24px;
+      display:grid;
+      place-items:center;
+      border-radius:999px;
+      background:#f6efe4;
+      color:var(--dark);
+      font-size:11px;
+      letter-spacing:.08em;
+    }
+
+    body.scrolled-light .cart-badge{
+      background:var(--dark);
+      color:#f6efe4;
+    }
+
+    .opening{
+      position:relative;
+      min-height:100vh;
+      overflow:hidden;
+      background:linear-gradient(180deg, #211d19 0%, #171411 100%);
+      color:#f7efe4;
+    }
+
+    .opening::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(255,255,255,.01) 0%, rgba(0,0,0,.12) 100%);
+      pointer-events:none;
+    }
+
+    .opening-media{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      padding:12vh 12vw 20vh;
+    }
+
+    .opening-media img{
+      width:min(42vw, 520px);
+      min-width:260px;
+      filter:drop-shadow(0 16px 34px rgba(0,0,0,.22));
+      transform:translate3d(0, calc(var(--parallax-shift, 0px) * .42), 0) scale(1.02);
+      transition:transform .24s linear;
+      animation:floatAlmond 14s ease-in-out infinite;
+      opacity:1;
+    }
+
+    @keyframes floatAlmond{
+      0%,100%{transform:translate3d(0, calc(var(--parallax-shift, 0px) * .42), 0) scale(1.02)}
+      50%{transform:translate3d(0, calc(var(--parallax-shift, 0px) * .42 - 10px), 0) scale(1.045)}
+    }
+
+    .opening-inner{
+      position:relative;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      padding:18vh 24px 10vh;
+    }
+
+    .opening-copy{
+      position:relative;
+      z-index:2;
+      width:min(760px, 100%);
+      min-height:82vh;
+    }
+
+    .opening-title{
+      margin:0;
+      font-family:Georgia, serif;
+      font-size:clamp(52px, 10vw, 138px);
+      font-weight:400;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      position:absolute;
+      left:50%;
+      top:27vh;
+      width:100%;
+      transform:translate(-50%, 18px);
+      opacity:0;
+      color:#f7efe4;
+      text-shadow:0 8px 28px rgba(0,0,0,.22);
+      z-index:3;
+      animation:heroTitleIn .9s ease .45s forwards;
+    }
+
+    .opening-note{
+      margin:0;
+      width:min(430px, 100%);
+      position:absolute;
+      left:50%;
+      bottom:10vh;
+      transform:translate(-50%, 16px);
+      font-size:15px;
+      line-height:1.8;
+      letter-spacing:.04em;
+      color:rgba(247,239,228,.94);
+      text-shadow:0 4px 18px rgba(0,0,0,.42);
+      opacity:0;
+      z-index:2;
+      animation:heroNoteIn .85s ease 1.15s forwards;
+    }
+
+    .opening-scroll{
+      position:absolute;
+      left:50%;
+      bottom:34px;
+      transform:translateX(-50%);
+      font-size:11px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:rgba(247,239,228,.54);
+      opacity:0;
+      transition:opacity .6s ease;
+    }
+
+    .opening-scroll::after{
+      content:"";
+      display:block;
+      width:1px;
+      height:44px;
+      margin:12px auto 0;
+      background:linear-gradient(180deg, rgba(247,239,228,.54) 0%, transparent 100%);
+    }
+
+    @keyframes heroTitleIn{
+      from{opacity:0;transform:translate(-50%, 18px)}
+      to{opacity:1;transform:translate(-50%, 0)}
+    }
+
+    @keyframes heroNoteIn{
+      from{opacity:0;transform:translate(-50%, 16px)}
+      to{opacity:1;transform:translate(-50%, 0)}
+    }
+
+    body.intro-ready .opening-scroll{
+      opacity:1;
+    }
+
+    body.intro-ready .opening-scroll{
+      transform:translateX(-50%);
+    }
+
+    .flow-main{
+      position:relative;
+      margin-top:-1px;
+    }
+
+    .flow-section{
+      position:relative;
+      overflow:hidden;
+    }
+
+    .section-shell{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:0 26px;
+    }
+
+    .story-band{
+      min-height:98vh;
+      display:grid;
+      align-items:end;
+      background:linear-gradient(180deg, #1a1714 0%, #201a16 48%, #2d241d 100%);
+      color:#f5ede2;
+    }
+
+    .story-media{
+      position:absolute;
+      inset:0;
+      overflow:hidden;
+    }
+
+    .story-media img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center;
+      filter:grayscale(1) contrast(1.02) brightness(.62);
+      transform:translate3d(0, calc(var(--parallax-shift, 0px) * .34), 0) scale(1.06);
+      transition:transform .24s linear;
+    }
+
+    .story-band::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(180deg, rgba(12,11,10,.16) 0%, rgba(12,11,10,.54) 58%, rgba(12,11,10,.82) 100%);
+      pointer-events:none;
+    }
+
+    .story-copy{
+      position:relative;
+      z-index:1;
+      width:min(540px, 100%);
+      padding:0 0 11vh;
+    }
+
+    .story-copy p,
+    .territory-copy p,
+    .trace-copy p,
+    .contacts-copy p,
+    .product-copy p,
+    .drawer-block p,
+    .modal-body p{
+      margin:0;
+      font-size:15px;
+      line-height:1.82;
+    }
+
+    .kicker{
+      display:block;
+      margin-bottom:16px;
+      font-size:11px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:rgba(247,239,228,.58);
+    }
+
+    .story-copy h2,
+    .territory-copy h2,
+    .shop-intro h2,
+    .trace-copy h2,
+    .contacts-copy h2{
+      margin:0 0 18px;
+      font-family:Georgia, serif;
+      font-size:clamp(34px, 5vw, 62px);
+      font-weight:400;
+      line-height:1.08;
+    }
+
+    .story-copy p{color:rgba(247,239,228,.78)}
+
+    .territory-band{
+      background:linear-gradient(180deg, #e5d7c5 0%, var(--paper) 55%, #f2ece1 100%);
+      padding:14vh 0 14vh;
+    }
+
+    .territory-layout{
+      display:grid;
+      grid-template-columns:minmax(0, .96fr) minmax(320px, .78fr);
+      gap:48px;
+      align-items:end;
+    }
+
+    .territory-media{
+      position:relative;
+      min-height:70vh;
+      overflow:hidden;
+      border-radius:calc(var(--radius) + 2px);
+      box-shadow:var(--shadow);
+    }
+
+    .territory-media img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      transform:translate3d(0, calc(var(--parallax-shift, 0px) * .32), 0) scale(1.06);
+      transition:transform .24s linear;
+    }
+
+    .territory-copy{
+      padding-bottom:4vh;
+    }
+
+    .territory-copy p{
+      color:var(--ink-soft);
+      max-width:420px;
+    }
+
+    .shop-flow{
+      background:linear-gradient(180deg, var(--paper) 0%, #efe4d4 100%);
+      padding:7vh 0 7vh;
+    }
+
+    .shop-intro{
+      max-width:760px;
+      margin:0 0 24px;
+      display:grid;
+      gap:10px;
+    }
+
+    .shop-intro p{
+      margin:0;
+      max-width:560px;
+      color:var(--ink-soft);
+      font-size:14px;
+      line-height:1.7;
+    }
+
+    .catalog-group{
+      margin-top:34px;
+    }
+
+    .catalog-head{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom:14px;
+      padding-bottom:12px;
+      border-bottom:1px solid rgba(24,20,17,.1);
+    }
+
+    .catalog-head h3{
+      margin:0;
+      font-family:Georgia, serif;
+      font-size:28px;
+      font-weight:400;
+    }
+
+    .catalog-head span{
+      color:var(--ink-soft);
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+
+    .selection-stream{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:22px 24px;
+      align-items:start;
+    }
+
+    .product-story{
+      display:grid;
+      grid-template-columns:220px minmax(0, 1fr);
+      gap:20px;
+      align-items:start;
+      padding:16px 0 18px;
+      border-top:1px solid rgba(24,20,17,.1);
+    }
+
+    .product-story.reverse{
+      grid-template-columns:220px minmax(0, 1fr);
+    }
+
+    .product-story.reverse .product-visual{order:initial}
+    .product-story.reverse .product-copy{order:initial}
+
+    .product-visual{
+      position:relative;
+      min-height:220px;
+      overflow:hidden;
+      border-radius:var(--radius);
+      background:#d9c6af;
+      box-shadow:0 20px 46px rgba(13,11,9,.12);
+    }
+
+    .product-visual img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      filter:saturate(.86) sepia(.06) brightness(.98);
+      transform:translate3d(0, calc(var(--parallax-shift, 0px) * .14), 0) scale(1.04);
+      transition:transform .24s linear;
+    }
+
+    .product-copy{
+      max-width:none;
+      padding:2px 0 0;
+    }
+
+    .product-copy .kicker{
+      color:#8a765d;
+      margin-bottom:8px;
+    }
+
+    .product-copy h3{
+      margin:0 0 10px;
+      font-family:Georgia, serif;
+      font-size:clamp(23px, 2.3vw, 31px);
+      font-weight:400;
+      line-height:1.12;
+    }
+
+    .product-copy p{color:var(--ink-soft)}
+
+    .detail-line{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px 14px;
+      margin:14px 0 16px;
+      color:#6a6055;
+      font-size:12px;
+    }
+
+    .detail-line span{
+      position:relative;
+      padding-right:16px;
+    }
+
+    .detail-line span::after{
+      content:"";
+      position:absolute;
+      right:0;
+      top:50%;
+      width:4px;
+      height:4px;
+      margin-top:-2px;
+      border-radius:999px;
+      background:rgba(24,20,17,.22);
+    }
+
+    .detail-line span:last-child{padding-right:0}
+    .detail-line span:last-child::after{display:none}
+
+    .format-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:16px;
+    }
+
+    .format-btn{
+      padding:8px 12px;
+      border-color:rgba(24,20,17,.14);
+      background:rgba(255,255,255,.42);
+      color:var(--ink-soft);
+      font-size:12px;
+    }
+
+    .format-btn.active{
+      background:rgba(154,114,66,.14);
+      color:var(--ink);
+      border-color:rgba(154,114,66,.5);
+    }
+
+    .product-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+
+    .solid-btn,
+    .ghost-btn{
+      padding:12px 15px;
+      text-transform:uppercase;
+      letter-spacing:.11em;
+      font-size:11px;
+    }
+
+    .solid-btn{
+      background:var(--dark);
+      color:#f6efe4;
+      border-color:var(--dark);
+    }
+
+    .ghost-btn{
+      color:var(--ink);
+      border-color:rgba(24,20,17,.16);
+      background:rgba(255,255,255,.36);
+    }
+
+    .price-note{
+      margin-top:14px;
+      font-size:14px;
+      color:#4f473f;
+    }
+
+    .trace-band{
+      background:linear-gradient(180deg, #1a1714 0%, #151310 100%);
+      color:#f6efe4;
+      padding:14vh 0;
+    }
+
+    .trace-layout{
+      display:grid;
+      grid-template-columns:minmax(0, .84fr) minmax(320px, .74fr);
+      gap:42px;
+      align-items:end;
+    }
+
+    .trace-copy p{
+      max-width:450px;
+      color:rgba(246,239,228,.74);
+    }
+
+    .trace-panel{
+      position:relative;
+      padding:34px;
+      min-height:420px;
+      display:grid;
+      place-items:center;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,248,239,.08);
+      backdrop-filter:blur(16px);
+      box-shadow:0 30px 70px rgba(0,0,0,.22);
+      overflow:hidden;
+    }
+
+    .qr-stage{
+      display:grid;
+      justify-items:center;
+      gap:20px;
+      text-align:center;
+      position:relative;
+      z-index:1;
+    }
+
+    .qr-shell{
+      width:208px;
+      height:208px;
+      padding:16px;
+      background:#f7efe4;
+      box-shadow:0 26px 50px rgba(0,0,0,.2);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .qr-image{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .qr-cover{
+      position:absolute;
+      inset:16px;
+      display:grid;
+      grid-template-columns:repeat(13, 1fr);
+      gap:3px;
+      z-index:2;
+    }
+
+    .qr-cover span{
+      background:#f7efe4;
+      opacity:1;
+    }
+
+    .qr-cover.start span{
+      animation:qrReveal 2.2s ease forwards;
+    }
+
+    .qr-cover.start span:nth-child(odd){animation-delay:.06s}
+    .qr-cover.start span:nth-child(3n){animation-delay:.14s}
+    .qr-cover.start span:nth-child(5n){animation-delay:.22s}
+
+    @keyframes qrReveal{
+      from{opacity:1}
+      to{opacity:0}
+    }
+
+    .qr-note{
+      max-width:320px;
+      color:rgba(246,239,228,.72);
+      font-size:14px;
+      line-height:1.8;
+    }
+
+    .contacts-band{
+      background:linear-gradient(180deg, #ece1d2 0%, #f4ede3 100%);
+      padding:12vh 0 14vh;
+    }
+
+    .contacts-layout{
+      display:grid;
+      grid-template-columns:minmax(0, .86fr) minmax(260px, .74fr);
+      gap:42px;
+      align-items:start;
+    }
+
+    .contacts-copy p{
+      max-width:460px;
+      color:var(--ink-soft);
+    }
+
+    .contact-lines{
+      display:grid;
+      gap:16px;
+      margin-top:22px;
+      font-size:15px;
+    }
+
+    .contact-line{
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      padding-bottom:14px;
+      border-bottom:1px solid rgba(24,20,17,.12);
+    }
+
+    .contact-side{
+      display:grid;
+      gap:18px;
+      align-content:start;
+      padding-top:10px;
+    }
+
+    .contact-side p{
+      margin:0;
+      color:var(--ink-soft);
+      line-height:1.8;
+      font-size:14px;
+    }
+
+    .footer{
+      padding:26px;
+      background:#161411;
+      color:rgba(246,239,228,.7);
+      font-size:12px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      text-align:center;
+    }
+
+    .drawer,
+    .modal,
+    .scrim,
+    .toast{
+      position:fixed;
+      z-index:60;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .24s ease, transform .28s ease;
+    }
+
+    .scrim{
+      inset:0;
+      background:rgba(10,9,8,.48);
+      backdrop-filter:blur(6px);
+      z-index:55;
+    }
+
+    .scrim.visible,
+    .drawer.visible,
+    .modal.visible,
+    .toast.visible{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .drawer{
+      top:0;
+      right:0;
+      width:min(470px, 100%);
+      height:100vh;
+      background:#fbf6ef;
+      color:var(--ink);
+      transform:translateX(100%);
+      box-shadow:-26px 0 80px rgba(0,0,0,.18);
+      display:flex;
+      flex-direction:column;
+    }
+
+    .drawer.visible{transform:translateX(0)}
+
+    .drawer-header,
+    .drawer-footer{
+      padding:22px 24px;
+      border-bottom:1px solid rgba(24,20,17,.1);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+    }
+
+    .drawer-footer{
+      border-bottom:none;
+      border-top:1px solid rgba(24,20,17,.1);
+      margin-top:auto;
+    }
+
+    .drawer-header h3,
+    .modal-header h3{
+      margin:0;
+      font-family:Georgia, serif;
+      font-size:28px;
+      font-weight:400;
+    }
+
+    .drawer-body,
+    .modal-body{
+      padding:24px;
+      overflow:auto;
+      display:grid;
+      gap:22px;
+    }
+
+    .drawer-block,
+    .modal-block{
+      display:grid;
+      gap:10px;
+    }
+
+    .drawer-block h4,
+    .modal-block h4{
+      margin:0;
+      font-size:13px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:#746858;
+    }
+
+    .mini-table{
+      display:grid;
+      gap:12px;
+    }
+
+    .mini-row{
+      display:flex;
+      justify-content:space-between;
+      gap:18px;
+      padding-bottom:12px;
+      border-bottom:1px solid rgba(24,20,17,.08);
+      font-size:14px;
+    }
+
+    .mini-row:last-child{border-bottom:none;padding-bottom:0}
+
+    .modal{
+      inset:0;
+      display:grid;
+      place-items:center;
+      padding:24px;
+      transform:scale(.98);
+    }
+
+    .modal.visible{transform:scale(1)}
+
+    .modal-card{
+      width:min(620px, 100%);
+      max-height:88vh;
+      overflow:hidden;
+      background:#fbf6ef;
+      color:var(--ink);
+      box-shadow:0 34px 90px rgba(0,0,0,.22);
+      border-radius:16px;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .modal-header,
+    .modal-footer{
+      padding:22px 24px;
+      border-bottom:1px solid rgba(24,20,17,.1);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+
+    .modal-footer{
+      border-bottom:none;
+      border-top:1px solid rgba(24,20,17,.1);
+      justify-content:flex-end;
+    }
+
+    .toast{
+      right:24px;
+      bottom:24px;
+      padding:14px 16px;
+      background:rgba(17,16,14,.92);
+      color:#f6efe4;
+      font-size:13px;
+      letter-spacing:.05em;
+      transform:translateY(14px);
+    }
+
+    .toast.visible{transform:translateY(0)}
+
+    .close-btn{
+      border:none;
+      background:none;
+      color:inherit;
+      cursor:pointer;
+      font-size:20px;
+      line-height:1;
+      padding:0;
+    }
+
+    .reveal,
+    .reveal-soft{
+      opacity:0;
+      transform:translateY(28px);
+    }
+
+    .reveal-soft{transform:translateY(18px)}
+    .reveal.is-visible,
+    .reveal-soft.is-visible{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    @media (max-width: 980px){
+      .topbar{
+        padding:16px 18px;
+        display:grid;
+        grid-template-columns:1fr;
+      }
+
+      .nav{justify-content:flex-start}
+      .header-actions{justify-content:flex-start}
+
+      .territory-layout,
+      .trace-layout,
+      .contacts-layout{
+        grid-template-columns:1fr;
+      }
+
+      .catalog-head{
+        align-items:flex-start;
+        flex-direction:column;
+      }
+
+      .selection-stream{
+        grid-template-columns:1fr;
+      }
+
+      .product-story,
+      .product-story.reverse{
+        grid-template-columns:190px minmax(0, 1fr);
+      }
+
+      .territory-media,
+      .product-visual{
+        min-height:220px;
+      }
+    }
+
+    @media (max-width: 640px){
+      .site-header{display:none}
+      .opening-media{padding:15vh 10vw 22vh}
+      .opening-copy{
+        min-height:74vh;
+      }
+      .opening-note{
+        font-size:14px;
+        width:min(360px, 100%);
+        bottom:12vh;
+      }
+      .opening-title{top:30vh}
+      .section-shell{padding:0 18px}
+      .story-copy{padding-bottom:9vh}
+      .story-copy h2,
+      .territory-copy h2,
+      .shop-intro h2,
+      .trace-copy h2,
+      .contacts-copy h2{
+        font-size:34px;
+      }
+      .product-story,
+      .product-story.reverse{
+        grid-template-columns:1fr;
+        gap:14px;
+      }
+      .product-actions{align-items:stretch}
+      .product-actions .solid-btn,
+      .product-actions .ghost-btn{
+        width:100%;
+      }
+      .contact-line,
+      .trace-row,
+      .mini-row{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-mark">ST</div>
+        <div class="brand-copy">
+          <strong>Stella</strong>
+          <span>Mandorle pugliesi</span>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="#storia">Storia</a>
+        <a href="#origine">Origine</a>
+        <a href="#shop">Shop</a>
+        <a href="#tracciabilita">Tracciabilita</a>
+        <a href="#contatti">Contatti</a>
+      </nav>
+      <div class="header-actions">
+        <div class="lang-toggle">
+          <button type="button" class="active">IT</button>
+          <button type="button">EN</button>
+        </div>
+        <button class="cart-button" type="button" data-open-cart>
+          Carrello
+          <span class="cart-badge" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flow-main">
+    <section class="opening" id="top">
+      <div class="opening-media" data-parallax="0.1">
+        <img src="../../references/assets/ecommerce/opening-almond.png" alt="Mandorla Stella">
+      </div>
+      <div class="opening-inner">
+        <div class="opening-copy">
+          <h1 class="opening-title">Stella</h1>
+          <p class="opening-note">Mandorle pugliesi coltivate,<br>lavorate e confezionate con amore.</p>
+        </div>
+        <div class="opening-scroll">Scorri</div>
+      </div>
+    </section>
+
+    <section class="flow-section story-band" id="storia">
+      <div class="story-media" data-parallax="0.04">
+        <img src="../../references/assets/ecommerce/mandorleto-06.jpeg" alt="Fotografia storica dell'azienda Stella">
+      </div>
+      <div class="section-shell">
+        <div class="story-copy reveal">
+          <span class="kicker">Storia</span>
+          <h2>Da generazioni in Puglia.</h2>
+          <p>Un lavoro di famiglia portato avanti nel tempo, con lo stesso legame alla terra e una cura piu precisa in ogni passaggio.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="flow-section territory-band" id="origine">
+      <div class="section-shell">
+        <div class="territory-layout">
+          <div class="territory-media reveal-soft" data-parallax="0.1">
+            <img src="../../references/assets/ecommerce/mandorleto-04.jpeg" alt="Mandorleti Stella in Puglia">
+          </div>
+          <div class="territory-copy reveal">
+            <span class="kicker" style="color:#7a6853">Origine</span>
+            <h2>Terra, raccolta, lavorazione.</h2>
+            <p>Le mandorle nascono in Puglia. Seguiamo coltivazione, raccolta, lavorazione e confezionamento con attenzione e continuita.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="flow-section shop-flow" id="shop">
+      <div class="section-shell">
+        <div class="shop-intro reveal">
+          <span class="kicker" style="color:#7a6853">Prodotti</span>
+          <h2>I nostri prodotti.</h2>
+          <p>Mandorle pugliesi, linee biologiche e derivati per cucina, pasticceria e vendita diretta.</p>
+        </div>
+
+        <div id="productGrid"></div>
+      </div>
+    </section>
+
+    <section class="flow-section trace-band" id="tracciabilita">
+      <div class="section-shell">
+        <div class="trace-layout">
+          <div class="trace-copy reveal">
+            <span class="kicker">Tracciabilita</span>
+            <h2>Origine verificabile.</h2>
+            <p>Il QR resta sul confezionamento. Quando lo si inquadra, mostra in modo semplice l'origine del prodotto e i passaggi registrati lungo la filiera.</p>
+            <div class="product-actions" style="margin-top:28px">
+              <button class="solid-btn" type="button" data-open-trace>Apri la scheda</button>
+            </div>
+          </div>
+
+          <div class="trace-panel reveal-soft">
+            <div class="qr-stage">
+              <span class="kicker">Sul packaging</span>
+              <div class="qr-shell" aria-hidden="true">
+                <img class="qr-image" src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=https%3A%2F%2Fstella.example%2Ftrace%2FLT-26-091" alt="QR Stella">
+                <div class="qr-cover" id="qrCover"></div>
+              </div>
+              <p class="qr-note">Una lettura semplice, pensata per chi vuole sapere da dove arriva il prodotto e come e stato seguito.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="flow-section contacts-band" id="contatti">
+      <div class="section-shell">
+        <div class="contacts-layout">
+          <div class="contacts-copy reveal">
+            <span class="kicker" style="color:#7a6853">Contatti</span>
+            <h2>Vendita diretta e forniture.</h2>
+            <p>Per acquisti privati, richieste business o disponibilita stagionale, il contatto resta diretto e semplice.</p>
+            <div class="contact-lines">
+              <div class="contact-line"><span>Email</span><strong>info@stellamandorle.it</strong></div>
+              <div class="contact-line"><span>Telefono</span><strong>+39 080 000 0000</strong></div>
+              <div class="contact-line"><span>Sede</span><strong>Puglia, Italia</strong></div>
+            </div>
+          </div>
+
+          <div class="contact-side reveal-soft">
+            <p>Le forniture B2B vengono valutate in base a tipologia, lavorazione e quantita richieste.</p>
+            <div class="product-actions">
+              <button class="solid-btn" type="button" data-open-b2b>Richiedi informazioni B2B</button>
+              <button class="ghost-btn" type="button" data-open-cart>Rivedi carrello</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    Stella · Demo ecommerce · Puglia
+  </footer>
+
+  <div class="scrim" id="scrim"></div>
+
+  <aside class="drawer" id="cartDrawer">
+    <div class="drawer-header">
+      <h3>Carrello</h3>
+      <button class="close-btn" type="button" data-close-surface>&times;</button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-block">
+        <h4>Selezione attuale</h4>
+        <div class="mini-table" id="cartItems"></div>
+      </div>
+      <div class="drawer-block">
+        <h4>Nota</h4>
+        <p>Questa e una demo cliente. Il flusso mostra toni, struttura e priorita della futura esperienza ecommerce.</p>
+      </div>
+    </div>
+    <div class="drawer-footer">
+      <button class="ghost-btn" type="button" data-close-surface>Continua</button>
+      <button class="solid-btn" type="button" id="checkoutDemo">Procedi</button>
+    </div>
+  </aside>
+
+  <aside class="drawer" id="productDrawer">
+    <div class="drawer-header">
+      <h3 id="drawerTitle">Scheda prodotto</h3>
+      <button class="close-btn" type="button" data-close-surface>&times;</button>
+    </div>
+    <div class="drawer-body" id="productDrawerBody"></div>
+    <div class="drawer-footer">
+      <button class="ghost-btn" type="button" data-close-surface>Chiudi</button>
+      <button class="solid-btn" type="button" id="drawerAddToCart">Aggiungi</button>
+    </div>
+  </aside>
+
+  <div class="modal" id="modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="kicker" id="modalKicker" style="color:#7a6853;margin-bottom:10px">Approfondimento</span>
+          <h3 id="modalTitle">Titolo</h3>
+        </div>
+        <button class="close-btn" type="button" data-close-surface>&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer">
+        <button class="ghost-btn" type="button" data-close-surface>Chiudi</button>
+        <button class="solid-btn" type="button" id="modalConfirm">Conferma</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const products = [
+      {
+        code: "ST-01",
+        title: "Mandorla naturale",
+        kicker: "Mandorle",
+        description: "Mandorla sgusciata naturale per consumo quotidiano, cucina e pasticceria.",
+        detail: "Lavorazione essenziale, con selezione e confezionamento controllati.",
+        pair: "Snack, dolci tradizionali, lavorazioni da forno.",
+        category: ["mandorle"],
+        group: "mandorle",
+        tags: ["Puglia", "Sgusciata", "Uso quotidiano"],
+        formats: [
+          { label: "500 g", price: "&euro; 8,90" },
+          { label: "1 kg", price: "&euro; 16,80" },
+          { label: "5 kg", price: "&euro; 74,00" }
+        ],
+        image: "https://images.pexels.com/photos/9811631/pexels-photo-9811631.jpeg?auto=compress&cs=tinysrgb&w=1200"
+      },
+      {
+        code: "ST-02",
+        title: "Mandorla pelata",
+        kicker: "Mandorle",
+        description: "Mandorla pelata dal profilo pulito, adatta a dolci e impasti piu fini.",
+        detail: "Selezione calibrata per una resa piu uniforme in cucina e laboratorio.",
+        pair: "Confetteria, biscotti, dolci secchi.",
+        category: ["mandorle"],
+        group: "mandorle",
+        tags: ["Pelata", "Selezionata", "Pasticceria"],
+        formats: [
+          { label: "500 g", price: "&euro; 9,80" },
+          { label: "1 kg", price: "&euro; 18,40" },
+          { label: "5 kg", price: "&euro; 82,00" }
+        ],
+        image: "https://commons.wikimedia.org/wiki/Special:FilePath/Blanched%20almonds.jpg"
+      },
+      {
+        code: "ST-03",
+        title: "Mandorla con guscio",
+        kicker: "Mandorle",
+        description: "Mandorla intera con guscio, piu diretta nella forma e vicina all'origine.",
+        detail: "Pensata per chi cerca un prodotto integro, diretto e vicino all'origine.",
+        pair: "Consumo domestico, cesti, vendita stagionale.",
+        category: ["mandorle"],
+        group: "mandorle",
+        tags: ["Con guscio", "Intera", "Origine Puglia"],
+        formats: [
+          { label: "1 kg", price: "&euro; 8,20" },
+          { label: "3 kg", price: "&euro; 22,50" },
+          { label: "10 kg", price: "&euro; 68,00" }
+        ],
+        image: "https://images.pexels.com/photos/6316683/pexels-photo-6316683.jpeg?auto=compress&cs=tinysrgb&w=1200"
+      },
+      {
+        code: "ST-04",
+        title: "Filippo Cea",
+        kicker: "Mandorle",
+        description: "Filippo Cea, piu legata al territorio e riconoscibile nella sua identita.",
+        detail: "Una proposta pensata per chi cerca materia prima con carattere piu definito.",
+        pair: "Selezione premium, consumo diretto, confezioni regalo.",
+        category: ["mandorle"],
+        group: "mandorle",
+        tags: ["Filippo Cea", "Territorio", "Origine Puglia"],
+        formats: [
+          { label: "500 g", price: "&euro; 10,40" },
+          { label: "1 kg", price: "&euro; 19,60" },
+          { label: "5 kg", price: "&euro; 88,00" }
+        ],
+        image: "https://images.pexels.com/photos/17332907/pexels-photo-17332907.jpeg?auto=compress&cs=tinysrgb&w=1200"
+      },
+      {
+        code: "ST-05",
+        title: "Tuono",
+        kicker: "Mandorle",
+        description: "Tuono, essenziale e concreta, adatta a diversi utilizzi e canali di vendita.",
+        detail: "Profilo versatile, pensato per una proposta piu ampia senza perdere leggibilita.",
+        pair: "Cucina, pasticceria, vendita diretta.",
+        category: ["mandorle"],
+        group: "mandorle",
+        tags: ["Tuono", "Versatile", "Filiera controllata"],
+        formats: [
+          { label: "500 g", price: "&euro; 9,10" },
+          { label: "1 kg", price: "&euro; 17,20" },
+          { label: "5 kg", price: "&euro; 76,00" }
+        ],
+        image: "https://images.pexels.com/photos/9974501/pexels-photo-9974501.jpeg?auto=compress&cs=tinysrgb&w=1200"
+      },
+      {
+        code: "ST-06",
+        title: "Bio naturale",
+        kicker: "Bio",
+        description: "Mandorla biologica naturale da filiera controllata, legata alla campagna.",
+        detail: "Una linea dedicata a chi richiede certificazione e approccio piu rigoroso.",
+        pair: "Vendita specializzata, consumo consapevole, forniture selezionate.",
+        category: ["bio"],
+        group: "bio",
+        tags: ["Bio", "Certificazione", "Puglia"],
+        formats: [
+          { label: "500 g", price: "&euro; 11,20" },
+          { label: "1 kg", price: "&euro; 21,00" },
+          { label: "5 kg", price: "&euro; 96,00" }
+        ],
+        image: "https://images.pexels.com/photos/11996700/pexels-photo-11996700.jpeg?auto=compress&cs=tinysrgb&w=1200"
+      },
+      {
+        code: "ST-10",
+        title: "Bio pelata",
+        kicker: "Bio",
+        description: "Mandorla biologica pelata, pulita nella resa e adatta a lavorazioni piu fini.",
+        detail: "Selezione biologica con pelatura e confezionamento registrati.",
+        pair: "Pasticceria, biscotti, impasti delicati.",
+        category: ["bio"],
+        group: "bio",
+        tags: ["Bio", "Pelata", "Puglia"],
+        formats: [
+          { label: "500 g", price: "&euro; 12,40" },
+          { label: "1 kg", price: "&euro; 23,60" },
+          { label: "5 kg", price: "&euro; 104,00" }
+        ],
+        image: "https://commons.wikimedia.org/wiki/Special:FilePath/Blanched%20almonds.jpg"
+      },
+      {
+        code: "ST-07",
+        title: "Farina di mandorla",
+        kicker: "Derivati",
+        description: "Macinatura fine da mandorla selezionata per impasti, dolci e lavorazioni professionali.",
+        detail: "Prodotto stabile e semplice da leggere, pensato per uso domestico e professionale.",
+        pair: "Torte, biscotti, creme, impasti.",
+        category: ["derivati"],
+        group: "derivati",
+        tags: ["Farina", "Macinatura fine", "Pasticceria"],
+        formats: [
+          { label: "500 g", price: "&euro; 7,90" },
+          { label: "1 kg", price: "&euro; 14,90" },
+          { label: "5 kg", price: "&euro; 65,00" }
+        ],
+        image: "https://images.pexels.com/photos/10994432/pexels-photo-10994432.jpeg?auto=compress&cs=tinysrgb&w=1200"
+      },
+      {
+        code: "ST-08",
+        title: "Granella di mandorla",
+        kicker: "Derivati",
+        description: "Granella regolare per coperture, decorazioni e impasti con maggiore texture.",
+        detail: "Taglio medio, gestione semplice, resa visiva piu evidente.",
+        pair: "Gelateria, dolci da forno, topping.",
+        category: ["derivati"],
+        group: "derivati",
+        tags: ["Granella", "Taglio medio", "Decorazione"],
+        formats: [
+          { label: "500 g", price: "&euro; 8,40" },
+          { label: "1 kg", price: "&euro; 15,80" },
+          { label: "5 kg", price: "&euro; 70,00" }
+        ],
+        image: "https://images.pexels.com/photos/4051117/pexels-photo-4051117.jpeg?auto=compress&cs=tinysrgb&w=1200"
+      },
+      {
+        code: "ST-09",
+        title: "Bastoncini di mandorla",
+        kicker: "Derivati",
+        description: "Taglio allungato per finiture piu nette e lavorazioni dove la presenza visiva conta.",
+        detail: "Pensati per impasti, decorazioni e linee di prodotto con uso professionale.",
+        pair: "Croissanteria, biscotti, prodotti da forno.",
+        category: ["derivati"],
+        group: "derivati",
+        tags: ["Bastoncini", "Taglio lungo", "Laboratorio"],
+        formats: [
+          { label: "500 g", price: "&euro; 8,80" },
+          { label: "1 kg", price: "&euro; 16,40" },
+          { label: "5 kg", price: "&euro; 72,00" }
+        ],
+        image: "https://images.pexels.com/photos/4051132/pexels-photo-4051132.jpeg?auto=compress&cs=tinysrgb&w=1200"
+      }
+    ];
+
+    const modalConfigs = {
+      b2b: {
+        kicker: "Richiesta B2B",
+        title: "Forniture e quantita dedicate",
+        confirm: "Invia richiesta",
+        body: `
+          <div class="modal-block">
+            <h4>Per chi</h4>
+            <p>Il canale B2B e pensato per negozi, laboratori, pasticcerie e operatori che hanno bisogno di formati o continuita di fornitura diversi dal canale diretto.</p>
+          </div>
+          <div class="modal-block">
+            <h4>Dati raccolti</h4>
+            <div class="mini-table">
+              <div class="mini-row"><span>Ragione sociale</span><span>Richiesta in demo</span></div>
+              <div class="mini-row"><span>Prodotti di interesse</span><span>Mandorle, derivati, bio</span></div>
+              <div class="mini-row"><span>Quantita</span><span>Da valutare</span></div>
+            </div>
+          </div>
+        `
+      },
+      trace: {
+        kicker: "QR demo",
+        title: "Scheda di tracciabilita",
+        confirm: "Chiudi scheda",
+        body: `
+          <div class="modal-block">
+            <h4>Informazioni visibili al cliente</h4>
+            <div class="mini-table">
+              <div class="mini-row"><span>Origine</span><span>Puglia, Italia</span></div>
+              <div class="mini-row"><span>Raccolta</span><span>Campagna 2026</span></div>
+              <div class="mini-row"><span>Confezionamento</span><span>Maggio 2026</span></div>
+              <div class="mini-row"><span>Lotto</span><span>LT-26-091</span></div>
+              <div class="mini-row"><span>Controlli</span><span>Selezione e confezionamento registrati</span></div>
+            </div>
+          </div>
+          <div class="modal-block">
+            <h4>Nota</h4>
+            <p>La tracciabilita resta semplice da leggere e diventa piu dettagliata solo quando il cliente sceglie di approfondire.</p>
+          </div>
+        `
+      },
+      checkout: {
+        kicker: "Carrello demo",
+        title: "Conferma richiesta",
+        confirm: "Conferma",
+        body: `
+          <div class="modal-block">
+            <h4>Acquisto diretto</h4>
+            <p>Nel prodotto finale il checkout potra convivere con accesso ospite, account cliente e richieste business separate.</p>
+          </div>
+        `
+      }
+    };
+
+    const productGrid = document.getElementById("productGrid");
+    const cartCount = document.getElementById("cartCount");
+    const cartDrawer = document.getElementById("cartDrawer");
+    const productDrawer = document.getElementById("productDrawer");
+    const productDrawerBody = document.getElementById("productDrawerBody");
+    const drawerTitle = document.getElementById("drawerTitle");
+    const drawerAddToCart = document.getElementById("drawerAddToCart");
+    const cartItems = document.getElementById("cartItems");
+    const modal = document.getElementById("modal");
+    const modalKicker = document.getElementById("modalKicker");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalBody = document.getElementById("modalBody");
+    const modalConfirm = document.getElementById("modalConfirm");
+    const scrim = document.getElementById("scrim");
+    const toast = document.getElementById("toast");
+    const qrCover = document.getElementById("qrCover");
+    const qrShell = document.querySelector(".qr-shell");
+
+    let activeProduct = null;
+    let activeModalAction = null;
+    const cart = [];
+    const selectedFormats = Object.fromEntries(products.map((product) => [product.code, product.formats[0].label]));
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("visible");
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.remove("visible"), 2200);
+    }
+
+    function closeSurfaces() {
+      [cartDrawer, productDrawer, modal].forEach((element) => element.classList.remove("visible"));
+      scrim.classList.remove("visible");
+    }
+
+    function openSurface(element) {
+      closeSurfaces();
+      element.classList.add("visible");
+      scrim.classList.add("visible");
+    }
+
+    function getProductFormat(product) {
+      const selected = selectedFormats[product.code] || product.formats[0].label;
+      return product.formats.find((format) => format.label === selected) || product.formats[0];
+    }
+
+    function renderProducts() {
+      const groups = [
+        { key: "mandorle", title: "Mandorle", note: "Naturale, pelata, con guscio, Filippo Cea, Tuono" },
+        { key: "bio", title: "Bio", note: "Naturale e pelata" },
+        { key: "derivati", title: "Derivati", note: "Farina, granella, bastoncini" }
+      ];
+
+      productGrid.innerHTML = groups.map((group) => {
+        const visible = products.filter((product) => product.group === group.key);
+        return `
+          <section class="catalog-group reveal">
+            <div class="catalog-head">
+              <h3>${group.title}</h3>
+              <span>${group.note}</span>
+            </div>
+            <div class="selection-stream">
+              ${visible.map((product) => {
+                const format = getProductFormat(product);
+                return `
+                  <article class="product-story">
+                    <div class="product-visual reveal-soft" data-parallax="0.04">
+                      <img src="${product.image}" alt="${product.title}">
+                    </div>
+                    <div class="product-copy reveal" data-product="${product.code}">
+                      <span class="kicker">${product.kicker}</span>
+                      <h3>${product.title}</h3>
+                      <p>${product.description}</p>
+                      <div class="detail-line">
+                        ${product.tags.map((tag) => `<span>${tag}</span>`).join("")}
+                      </div>
+                      <div class="format-row">
+                        ${product.formats.map((item) => `
+                          <button class="format-btn ${item.label === format.label ? "active" : ""}" type="button"
+                            data-product-format="${product.code}" data-format="${item.label}">
+                            ${item.label}
+                          </button>
+                        `).join("")}
+                      </div>
+                      <div class="product-actions">
+                        <button class="solid-btn" type="button" data-add-product="${product.code}">Aggiungi al carrello</button>
+                        <button class="ghost-btn" type="button" data-open-product="${product.code}">Apri scheda</button>
+                      </div>
+                      <div class="price-note">${format.price}</div>
+                    </div>
+                  </article>
+                `;
+              }).join("")}
+            </div>
+          </section>
+        `;
+      }).join("");
+
+      attachProductEvents();
+      setupMotion();
+    }
+
+    function attachProductEvents() {
+      document.querySelectorAll("[data-product-format]").forEach((button) => {
+        button.addEventListener("click", () => {
+          selectedFormats[button.dataset.productFormat] = button.dataset.format;
+          renderProducts();
+        });
+      });
+
+      document.querySelectorAll("[data-add-product]").forEach((button) => {
+        button.addEventListener("click", () => addToCart(button.dataset.addProduct));
+      });
+
+      document.querySelectorAll("[data-open-product]").forEach((button) => {
+        button.addEventListener("click", () => openProductDrawer(button.dataset.openProduct));
+      });
+    }
+
+    function addToCart(productCode) {
+      const product = products.find((item) => item.code === productCode);
+      if (!product) return;
+      const format = getProductFormat(product);
+      cart.push({ code: product.code, title: product.title, format: format.label, price: format.price });
+      renderCart();
+      showToast(`${product.title} aggiunto al carrello`);
+    }
+
+    function renderCart() {
+      cartCount.textContent = cart.length;
+      if (!cart.length) {
+        cartItems.innerHTML = `<div class="mini-row"><span>Nessun prodotto selezionato</span><span>-</span></div>`;
+        return;
+      }
+
+      cartItems.innerHTML = cart.map((item, index) => `
+        <div class="mini-row">
+          <span>${index + 1}. ${item.title} · ${item.format}</span>
+          <span>${item.price}</span>
+        </div>
+      `).join("");
+    }
+
+    function openProductDrawer(productCode) {
+      const product = products.find((item) => item.code === productCode);
+      if (!product) return;
+      activeProduct = product;
+      const format = getProductFormat(product);
+      drawerTitle.textContent = product.title;
+      productDrawerBody.innerHTML = `
+        <div class="drawer-block">
+          <h4>Il prodotto</h4>
+          <p>${product.description}</p>
+        </div>
+        <div class="drawer-block">
+          <h4>Dettaglio</h4>
+          <p>${product.detail}</p>
+        </div>
+        <div class="drawer-block">
+          <h4>Formato selezionato</h4>
+          <div class="mini-table">
+            <div class="mini-row"><span>Formato</span><span>${format.label}</span></div>
+            <div class="mini-row"><span>Prezzo demo</span><span>${format.price}</span></div>
+            <div class="mini-row"><span>Origine</span><span>Puglia, Italia</span></div>
+          </div>
+        </div>
+        <div class="drawer-block">
+          <h4>Filiera</h4>
+          <p>Origine verificabile, lavorazione controllata e QR disponibile sul confezionamento.</p>
+        </div>
+        <div class="drawer-block">
+          <h4>Uso</h4>
+          <p>${product.pair}</p>
+        </div>
+      `;
+      openSurface(productDrawer);
+    }
+
+    function openModal(action) {
+      const config = modalConfigs[action];
+      if (!config) return;
+      activeModalAction = action;
+      modalKicker.textContent = config.kicker;
+      modalTitle.textContent = config.title;
+      modalBody.innerHTML = config.body;
+      modalConfirm.textContent = config.confirm;
+      openSurface(modal);
+    }
+
+    function handleModalConfirm() {
+      if (activeModalAction === "b2b") {
+        showToast("Richiesta B2B registrata in demo");
+      }
+      if (activeModalAction === "trace") {
+        showToast("Scheda QR aperta in demo");
+      }
+      if (activeModalAction === "checkout") {
+        showToast("Richiesta ordine confermata in demo");
+      }
+      closeSurfaces();
+    }
+
+    let revealObserver;
+    let motionTicking = false;
+
+    function updateParallax() {
+      document.querySelectorAll("[data-parallax]").forEach((element) => {
+        const speed = Number(element.dataset.parallax || 0.08);
+        const rect = element.getBoundingClientRect();
+        const viewportCenter = window.innerHeight * 0.5;
+        const offset = (rect.top + rect.height * 0.5 - viewportCenter) * speed * -0.18;
+        element.style.setProperty("--parallax-shift", `${offset.toFixed(2)}px`);
+      });
+      motionTicking = false;
+    }
+
+    function requestParallax() {
+      if (motionTicking) return;
+      motionTicking = true;
+      window.requestAnimationFrame(updateParallax);
+    }
+
+    function setupMotion() {
+      document.body.classList.add("is-ready");
+
+      if (revealObserver) {
+        revealObserver.disconnect();
+      }
+
+      revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            if (entry.target.id === "tracciabilita" && qrCover) {
+              buildQrCover();
+              window.setTimeout(() => qrCover.classList.add("start"), 120);
+            }
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: "0px 0px -8% 0px"
+      });
+
+      document.querySelectorAll(".reveal, .reveal-soft, #tracciabilita").forEach((element) => {
+        revealObserver.observe(element);
+      });
+
+      requestParallax();
+    }
+
+    function buildQrCover() {
+      if (!qrCover) return;
+      qrCover.classList.remove("start");
+      qrCover.innerHTML = Array.from({ length: 169 }, () => "<span></span>").join("");
+    }
+
+    function updateHeaderState() {
+      const threshold = window.innerHeight * 0.6;
+      const openingHeight = document.querySelector(".opening").offsetHeight - 80;
+      document.body.classList.toggle("show-header", window.scrollY > threshold);
+      document.body.classList.toggle("scrolled-light", window.scrollY > openingHeight);
+    }
+
+    document.querySelectorAll("[data-open-cart]").forEach((button) => {
+      button.addEventListener("click", () => openSurface(cartDrawer));
+    });
+
+    document.querySelectorAll("[data-open-trace]").forEach((button) => {
+      button.addEventListener("click", () => openModal("trace"));
+    });
+
+    if (qrShell) {
+      qrShell.addEventListener("click", () => openModal("trace"));
+      qrShell.style.cursor = "pointer";
+    }
+
+    document.querySelectorAll("[data-open-b2b]").forEach((button) => {
+      button.addEventListener("click", () => openModal("b2b"));
+    });
+
+    document.querySelectorAll("[data-close-surface]").forEach((button) => {
+      button.addEventListener("click", closeSurfaces);
+    });
+
+    scrim.addEventListener("click", closeSurfaces);
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeSurfaces();
+    });
+
+    window.addEventListener("scroll", () => {
+      requestParallax();
+      updateHeaderState();
+    }, { passive: true });
+
+    window.addEventListener("resize", () => {
+      requestParallax();
+      updateHeaderState();
+    });
+
+    drawerAddToCart.addEventListener("click", () => {
+      if (!activeProduct) return;
+      addToCart(activeProduct.code);
+      closeSurfaces();
+    });
+
+    modalConfirm.addEventListener("click", handleModalConfirm);
+    document.getElementById("checkoutDemo").addEventListener("click", () => openModal("checkout"));
+
+    renderProducts();
+    buildQrCover();
+    renderCart();
+    setupMotion();
+    updateHeaderState();
+    window.setTimeout(() => document.body.classList.add("intro-ready"), 1600);
+  </script>
+</body>
+</html>
+
+
