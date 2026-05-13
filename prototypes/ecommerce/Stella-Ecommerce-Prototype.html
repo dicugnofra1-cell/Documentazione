@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stella Ecommerce Prototype</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap');
+
     :root{
       --paper:#f2ece1;
       --paper-soft:#ece3d5;
@@ -265,7 +267,7 @@
       content:"";
       position:absolute;
       inset:0;
-      background:linear-gradient(180deg, rgba(255,255,255,.01) 0%, rgba(0,0,0,.12) 100%);
+      background:linear-gradient(180deg, rgba(255,255,255,.01) 0%, rgba(0,0,0,.08) 100%);
       pointer-events:none;
     }
 
@@ -280,16 +282,16 @@
     .opening-media img{
       width:min(42vw, 520px);
       min-width:260px;
-      filter:drop-shadow(0 16px 34px rgba(0,0,0,.22));
-      transform:translate3d(0, calc(var(--parallax-shift, 0px) * .42), 0) scale(1.02);
+      filter:drop-shadow(0 8px 18px rgba(0,0,0,.12));
+      transform:translate3d(0, calc(var(--parallax-shift, 0px) * .32), 0) scale(1.005);
       transition:transform .24s linear;
-      animation:floatAlmond 14s ease-in-out infinite;
+      animation:floatAlmond 18s ease-in-out infinite;
       opacity:1;
     }
 
     @keyframes floatAlmond{
-      0%,100%{transform:translate3d(0, calc(var(--parallax-shift, 0px) * .42), 0) scale(1.02)}
-      50%{transform:translate3d(0, calc(var(--parallax-shift, 0px) * .42 - 10px), 0) scale(1.045)}
+      0%,100%{transform:translate3d(0, calc(var(--parallax-shift, 0px) * .32), 0) scale(1.005)}
+      50%{transform:translate3d(0, calc(var(--parallax-shift, 0px) * .32 - 7px), 0) scale(1.018)}
     }
 
     .opening-inner{
@@ -310,35 +312,35 @@
 
     .opening-title{
       margin:0;
-      font-family:Georgia, serif;
-      font-size:clamp(52px, 10vw, 138px);
-      font-weight:400;
-      letter-spacing:.18em;
+      font-family:"Cormorant Garamond", Georgia, serif;
+      font-size:clamp(50px, 9vw, 128px);
+      font-weight:500;
+      letter-spacing:.08em;
       text-transform:uppercase;
       position:absolute;
       left:50%;
-      top:27vh;
+      top:27.5vh;
       width:100%;
       transform:translate(-50%, 18px);
       opacity:0;
-      color:#f7efe4;
-      text-shadow:0 8px 28px rgba(0,0,0,.22);
+      color:#ebdfcd;
+      text-shadow:none;
       z-index:3;
       animation:heroTitleIn .9s ease .45s forwards;
     }
 
     .opening-note{
       margin:0;
-      width:min(430px, 100%);
+      width:min(320px, 100%);
       position:absolute;
       left:50%;
       bottom:10vh;
       transform:translate(-50%, 16px);
-      font-size:15px;
+      font-size:13px;
       line-height:1.8;
-      letter-spacing:.04em;
-      color:rgba(247,239,228,.94);
-      text-shadow:0 4px 18px rgba(0,0,0,.42);
+      letter-spacing:.025em;
+      color:rgba(235,223,205,.72);
+      text-shadow:none;
       opacity:0;
       z-index:2;
       animation:heroNoteIn .85s ease 1.15s forwards;
@@ -467,7 +469,7 @@
     .trace-copy h2,
     .contacts-copy h2{
       margin:0 0 18px;
-      font-family:Georgia, serif;
+      font-family:"Cormorant Garamond", Georgia, serif;
       font-size:clamp(34px, 5vw, 62px);
       font-weight:400;
       line-height:1.08;
@@ -476,44 +478,52 @@
     .story-copy p{color:rgba(247,239,228,.78)}
 
     .territory-band{
-      background:linear-gradient(180deg, #e5d7c5 0%, var(--paper) 55%, #f2ece1 100%);
-      padding:14vh 0 14vh;
+      background:
+        linear-gradient(180deg, #2d241d 0%, #d9ccb9 16%, var(--paper) 46%, #f2ece1 100%);
+      padding:4vh 0 14vh;
     }
 
     .territory-layout{
       display:grid;
-      grid-template-columns:minmax(0, .96fr) minmax(320px, .78fr);
-      gap:48px;
-      align-items:end;
+      gap:30px;
+      align-items:start;
     }
 
     .territory-media{
       position:relative;
-      min-height:70vh;
+      min-height:82vh;
       overflow:hidden;
-      border-radius:calc(var(--radius) + 2px);
-      box-shadow:var(--shadow);
+    }
+
+    .territory-media::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(18,15,12,.18) 0%, rgba(18,15,12,0) 22%, rgba(18,15,12,.12) 100%);
+      pointer-events:none;
     }
 
     .territory-media img{
       width:100%;
       height:100%;
       object-fit:cover;
-      transform:translate3d(0, calc(var(--parallax-shift, 0px) * .32), 0) scale(1.06);
+      object-position:center;
+      transform:translate3d(0, calc(var(--parallax-shift, 0px) * .22), 0) scale(1.04);
       transition:transform .24s linear;
     }
 
     .territory-copy{
-      padding-bottom:4vh;
+      width:min(620px, 100%);
+      padding:0 0 0 6px;
     }
 
     .territory-copy p{
       color:var(--ink-soft);
-      max-width:420px;
+      max-width:560px;
     }
 
     .shop-flow{
-      background:linear-gradient(180deg, var(--paper) 0%, #efe4d4 100%);
+      background:linear-gradient(180deg, #f4ede3 0%, #eadcca 100%);
       padding:7vh 0 7vh;
     }
 
@@ -526,10 +536,10 @@
 
     .shop-intro p{
       margin:0;
-      max-width:560px;
+      max-width:420px;
       color:var(--ink-soft);
-      font-size:14px;
-      line-height:1.7;
+      font-size:13px;
+      line-height:1.65;
     }
 
     .catalog-group{
@@ -548,7 +558,7 @@
 
     .catalog-head h3{
       margin:0;
-      font-family:Georgia, serif;
+      font-family:"Cormorant Garamond", Georgia, serif;
       font-size:28px;
       font-weight:400;
     }
@@ -572,7 +582,7 @@
       grid-template-columns:220px minmax(0, 1fr);
       gap:20px;
       align-items:start;
-      padding:16px 0 18px;
+      padding:14px 0 16px;
       border-top:1px solid rgba(24,20,17,.1);
     }
 
@@ -586,18 +596,21 @@
     .product-visual{
       position:relative;
       min-height:220px;
+      aspect-ratio:1 / 1;
       overflow:hidden;
       border-radius:var(--radius);
-      background:#d9c6af;
-      box-shadow:0 20px 46px rgba(13,11,9,.12);
+      background:#f3ebdf;
+      box-shadow:0 14px 28px rgba(13,11,9,.08);
     }
 
     .product-visual img{
       width:100%;
       height:100%;
-      object-fit:cover;
-      filter:saturate(.86) sepia(.06) brightness(.98);
-      transform:translate3d(0, calc(var(--parallax-shift, 0px) * .14), 0) scale(1.04);
+      object-fit:contain;
+      object-position:center;
+      padding:16px;
+      filter:saturate(.8) sepia(.08) contrast(.95) brightness(.98);
+      transform:translate3d(0, calc(var(--parallax-shift, 0px) * .08), 0) scale(1.01);
       transition:transform .24s linear;
     }
 
@@ -613,19 +626,23 @@
 
     .product-copy h3{
       margin:0 0 10px;
-      font-family:Georgia, serif;
+      font-family:"Cormorant Garamond", Georgia, serif;
       font-size:clamp(23px, 2.3vw, 31px);
       font-weight:400;
       line-height:1.12;
     }
 
-    .product-copy p{color:var(--ink-soft)}
+    .product-copy p{
+      color:var(--ink-soft);
+      font-size:14px;
+      line-height:1.62;
+    }
 
     .detail-line{
       display:flex;
       flex-wrap:wrap;
       gap:8px 14px;
-      margin:14px 0 16px;
+      margin:12px 0 14px;
       color:#6a6055;
       font-size:12px;
     }
@@ -699,13 +716,13 @@
     }
 
     .price-note{
-      margin-top:14px;
+      margin-top:12px;
       font-size:14px;
       color:#4f473f;
     }
 
     .trace-band{
-      background:linear-gradient(180deg, #1a1714 0%, #151310 100%);
+      background:linear-gradient(180deg, #171411 0%, #11100e 100%);
       color:#f6efe4;
       padding:14vh 0;
     }
@@ -718,20 +735,20 @@
     }
 
     .trace-copy p{
-      max-width:450px;
-      color:rgba(246,239,228,.74);
+      max-width:360px;
+      color:rgba(246,239,228,.7);
     }
 
     .trace-panel{
       position:relative;
-      padding:34px;
+      padding:42px;
       min-height:420px;
       display:grid;
       place-items:center;
-      background:rgba(255,255,255,.03);
-      border:1px solid rgba(255,248,239,.08);
-      backdrop-filter:blur(16px);
-      box-shadow:0 30px 70px rgba(0,0,0,.22);
+      background:rgba(255,255,255,.02);
+      border:1px solid rgba(255,248,239,.06);
+      backdrop-filter:blur(12px);
+      box-shadow:0 20px 48px rgba(0,0,0,.16);
       overflow:hidden;
     }
 
@@ -749,7 +766,7 @@
       height:208px;
       padding:16px;
       background:#f7efe4;
-      box-shadow:0 26px 50px rgba(0,0,0,.2);
+      box-shadow:0 16px 34px rgba(0,0,0,.14);
       position:relative;
       overflow:hidden;
     }
@@ -776,12 +793,12 @@
     }
 
     .qr-cover.start span{
-      animation:qrReveal 2.2s ease forwards;
+      animation:qrReveal 3.4s ease forwards;
     }
 
-    .qr-cover.start span:nth-child(odd){animation-delay:.06s}
-    .qr-cover.start span:nth-child(3n){animation-delay:.14s}
-    .qr-cover.start span:nth-child(5n){animation-delay:.22s}
+    .qr-cover.start span:nth-child(odd){animation-delay:.12s}
+    .qr-cover.start span:nth-child(3n){animation-delay:.26s}
+    .qr-cover.start span:nth-child(5n){animation-delay:.38s}
 
     @keyframes qrReveal{
       from{opacity:1}
@@ -789,14 +806,14 @@
     }
 
     .qr-note{
-      max-width:320px;
-      color:rgba(246,239,228,.72);
-      font-size:14px;
-      line-height:1.8;
+      max-width:280px;
+      color:rgba(246,239,228,.66);
+      font-size:13px;
+      line-height:1.75;
     }
 
     .contacts-band{
-      background:linear-gradient(180deg, #ece1d2 0%, #f4ede3 100%);
+      background:linear-gradient(180deg, #f0e7da 0%, #f7f1e8 100%);
       padding:12vh 0 14vh;
     }
 
@@ -1059,7 +1076,10 @@
         grid-template-columns:190px minmax(0, 1fr);
       }
 
-      .territory-media,
+      .territory-media{
+        min-height:58vh;
+      }
+
       .product-visual{
         min-height:220px;
       }
@@ -1143,7 +1163,7 @@
       <div class="opening-inner">
         <div class="opening-copy">
           <h1 class="opening-title">Stella</h1>
-          <p class="opening-note">Mandorle pugliesi coltivate,<br>lavorate e confezionate con amore.</p>
+          <p class="opening-note">Dalla Puglia, con amore.</p>
         </div>
         <div class="opening-scroll">Scorri</div>
       </div>
@@ -1165,13 +1185,13 @@
     <section class="flow-section territory-band" id="origine">
       <div class="section-shell">
         <div class="territory-layout">
-          <div class="territory-media reveal-soft" data-parallax="0.1">
-            <img src="../../references/assets/ecommerce/mandorleto-04.jpeg" alt="Mandorleti Stella in Puglia">
+          <div class="territory-media reveal-soft" data-parallax="0.08">
+            <img src="../../references/assets/ecommerce/mandorleto-presente.jpg" alt="Mandorleto Stella in Puglia oggi">
           </div>
           <div class="territory-copy reveal">
             <span class="kicker" style="color:#7a6853">Origine</span>
-            <h2>Terra, raccolta, lavorazione.</h2>
-            <p>Le mandorle nascono in Puglia. Seguiamo coltivazione, raccolta, lavorazione e confezionamento con attenzione e continuita.</p>
+            <h2>Oggi, nelle nostre terre.</h2>
+            <p>Stella nasce da una storia familiare legata alle mandorle e continua oggi con una cura piu ampia nella selezione, nella lavorazione e nel controllo di una filiera contemporanea.</p>
           </div>
         </div>
       </div>
@@ -1180,9 +1200,9 @@
     <section class="flow-section shop-flow" id="shop">
       <div class="section-shell">
         <div class="shop-intro reveal">
-          <span class="kicker" style="color:#7a6853">Prodotti</span>
-          <h2>I nostri prodotti.</h2>
-          <p>Mandorle pugliesi, linee biologiche e derivati per cucina, pasticceria e vendita diretta.</p>
+          <span class="kicker" style="color:#7a6853">I nostri prodotti</span>
+          <h2>La bottega della mandorla.</h2>
+          <p>Mandorle, linee biologiche e derivati.</p>
         </div>
 
         <div id="productGrid"></div>
@@ -1195,7 +1215,7 @@
           <div class="trace-copy reveal">
             <span class="kicker">Tracciabilita</span>
             <h2>Origine verificabile.</h2>
-            <p>Il QR resta sul confezionamento. Quando lo si inquadra, mostra in modo semplice l'origine del prodotto e i passaggi registrati lungo la filiera.</p>
+            <p>Il QR accompagna il confezionamento e restituisce, con semplicita, l'origine del prodotto e i passaggi registrati lungo la filiera.</p>
             <div class="product-actions" style="margin-top:28px">
               <button class="solid-btn" type="button" data-open-trace>Apri la scheda</button>
             </div>
@@ -1305,7 +1325,7 @@
         code: "ST-01",
         title: "Mandorla naturale",
         kicker: "Mandorle",
-        description: "Mandorla sgusciata naturale per consumo quotidiano, cucina e pasticceria.",
+        description: "Mandorla sgusciata, essenziale e quotidiana.",
         detail: "Lavorazione essenziale, con selezione e confezionamento controllati.",
         pair: "Snack, dolci tradizionali, lavorazioni da forno.",
         category: ["mandorle"],
@@ -1316,13 +1336,13 @@
           { label: "1 kg", price: "&euro; 16,80" },
           { label: "5 kg", price: "&euro; 74,00" }
         ],
-        image: "https://images.pexels.com/photos/9811631/pexels-photo-9811631.jpeg?auto=compress&cs=tinysrgb&w=1200"
+        image: "../../references/assets/ecommerce/products/mandorla-naturale.webp"
       },
       {
         code: "ST-02",
         title: "Mandorla pelata",
         kicker: "Mandorle",
-        description: "Mandorla pelata dal profilo pulito, adatta a dolci e impasti piu fini.",
+        description: "Pulita nella resa, adatta a dolci e impasti piu fini.",
         detail: "Selezione calibrata per una resa piu uniforme in cucina e laboratorio.",
         pair: "Confetteria, biscotti, dolci secchi.",
         category: ["mandorle"],
@@ -1333,13 +1353,13 @@
           { label: "1 kg", price: "&euro; 18,40" },
           { label: "5 kg", price: "&euro; 82,00" }
         ],
-        image: "https://commons.wikimedia.org/wiki/Special:FilePath/Blanched%20almonds.jpg"
+        image: "../../references/assets/ecommerce/products/mandorla-pelata.jpg"
       },
       {
         code: "ST-03",
         title: "Mandorla con guscio",
         kicker: "Mandorle",
-        description: "Mandorla intera con guscio, piu diretta nella forma e vicina all'origine.",
+        description: "Intera, diretta, vicina alla sua forma piu naturale.",
         detail: "Pensata per chi cerca un prodotto integro, diretto e vicino all'origine.",
         pair: "Consumo domestico, cesti, vendita stagionale.",
         category: ["mandorle"],
@@ -1350,47 +1370,13 @@
           { label: "3 kg", price: "&euro; 22,50" },
           { label: "10 kg", price: "&euro; 68,00" }
         ],
-        image: "https://images.pexels.com/photos/6316683/pexels-photo-6316683.jpeg?auto=compress&cs=tinysrgb&w=1200"
-      },
-      {
-        code: "ST-04",
-        title: "Filippo Cea",
-        kicker: "Mandorle",
-        description: "Filippo Cea, piu legata al territorio e riconoscibile nella sua identita.",
-        detail: "Una proposta pensata per chi cerca materia prima con carattere piu definito.",
-        pair: "Selezione premium, consumo diretto, confezioni regalo.",
-        category: ["mandorle"],
-        group: "mandorle",
-        tags: ["Filippo Cea", "Territorio", "Origine Puglia"],
-        formats: [
-          { label: "500 g", price: "&euro; 10,40" },
-          { label: "1 kg", price: "&euro; 19,60" },
-          { label: "5 kg", price: "&euro; 88,00" }
-        ],
-        image: "https://images.pexels.com/photos/17332907/pexels-photo-17332907.jpeg?auto=compress&cs=tinysrgb&w=1200"
-      },
-      {
-        code: "ST-05",
-        title: "Tuono",
-        kicker: "Mandorle",
-        description: "Tuono, essenziale e concreta, adatta a diversi utilizzi e canali di vendita.",
-        detail: "Profilo versatile, pensato per una proposta piu ampia senza perdere leggibilita.",
-        pair: "Cucina, pasticceria, vendita diretta.",
-        category: ["mandorle"],
-        group: "mandorle",
-        tags: ["Tuono", "Versatile", "Filiera controllata"],
-        formats: [
-          { label: "500 g", price: "&euro; 9,10" },
-          { label: "1 kg", price: "&euro; 17,20" },
-          { label: "5 kg", price: "&euro; 76,00" }
-        ],
-        image: "https://images.pexels.com/photos/9974501/pexels-photo-9974501.jpeg?auto=compress&cs=tinysrgb&w=1200"
+        image: "../../references/assets/ecommerce/products/mandorla-con-guscio.jpg"
       },
       {
         code: "ST-06",
-        title: "Bio naturale",
+        title: "Mandorla bio naturale",
         kicker: "Bio",
-        description: "Mandorla biologica naturale da filiera controllata, legata alla campagna.",
+        description: "Mandorla biologica naturale, coltivata con rigore e continuita.",
         detail: "Una linea dedicata a chi richiede certificazione e approccio piu rigoroso.",
         pair: "Vendita specializzata, consumo consapevole, forniture selezionate.",
         category: ["bio"],
@@ -1401,13 +1387,13 @@
           { label: "1 kg", price: "&euro; 21,00" },
           { label: "5 kg", price: "&euro; 96,00" }
         ],
-        image: "https://images.pexels.com/photos/11996700/pexels-photo-11996700.jpeg?auto=compress&cs=tinysrgb&w=1200"
+        image: "../../references/assets/ecommerce/products/bio-naturale.jpg"
       },
       {
         code: "ST-10",
-        title: "Bio pelata",
+        title: "Mandorla bio pelata",
         kicker: "Bio",
-        description: "Mandorla biologica pelata, pulita nella resa e adatta a lavorazioni piu fini.",
+        description: "Versione biologica pelata, pensata per lavorazioni piu fini.",
         detail: "Selezione biologica con pelatura e confezionamento registrati.",
         pair: "Pasticceria, biscotti, impasti delicati.",
         category: ["bio"],
@@ -1418,13 +1404,13 @@
           { label: "1 kg", price: "&euro; 23,60" },
           { label: "5 kg", price: "&euro; 104,00" }
         ],
-        image: "https://commons.wikimedia.org/wiki/Special:FilePath/Blanched%20almonds.jpg"
+        image: "../../references/assets/ecommerce/products/bio-pelata.jpg"
       },
       {
         code: "ST-07",
         title: "Farina di mandorla",
         kicker: "Derivati",
-        description: "Macinatura fine da mandorla selezionata per impasti, dolci e lavorazioni professionali.",
+        description: "Macinatura fine per impasti, dolci e lavorazioni professionali.",
         detail: "Prodotto stabile e semplice da leggere, pensato per uso domestico e professionale.",
         pair: "Torte, biscotti, creme, impasti.",
         category: ["derivati"],
@@ -1435,13 +1421,13 @@
           { label: "1 kg", price: "&euro; 14,90" },
           { label: "5 kg", price: "&euro; 65,00" }
         ],
-        image: "https://images.pexels.com/photos/10994432/pexels-photo-10994432.jpeg?auto=compress&cs=tinysrgb&w=1200"
+        image: "../../references/assets/ecommerce/products/farina-di-mandorla.jpg"
       },
       {
         code: "ST-08",
         title: "Granella di mandorla",
         kicker: "Derivati",
-        description: "Granella regolare per coperture, decorazioni e impasti con maggiore texture.",
+        description: "Taglio regolare per decorazioni, coperture e impasti.",
         detail: "Taglio medio, gestione semplice, resa visiva piu evidente.",
         pair: "Gelateria, dolci da forno, topping.",
         category: ["derivati"],
@@ -1452,13 +1438,13 @@
           { label: "1 kg", price: "&euro; 15,80" },
           { label: "5 kg", price: "&euro; 70,00" }
         ],
-        image: "https://images.pexels.com/photos/4051117/pexels-photo-4051117.jpeg?auto=compress&cs=tinysrgb&w=1200"
+        image: "../../references/assets/ecommerce/products/granella-di-mandorla.jpg"
       },
       {
         code: "ST-09",
         title: "Bastoncini di mandorla",
         kicker: "Derivati",
-        description: "Taglio allungato per finiture piu nette e lavorazioni dove la presenza visiva conta.",
+        description: "Taglio allungato per finiture nette e lavorazioni di pasticceria.",
         detail: "Pensati per impasti, decorazioni e linee di prodotto con uso professionale.",
         pair: "Croissanteria, biscotti, prodotti da forno.",
         category: ["derivati"],
@@ -1469,7 +1455,7 @@
           { label: "1 kg", price: "&euro; 16,40" },
           { label: "5 kg", price: "&euro; 72,00" }
         ],
-        image: "https://images.pexels.com/photos/4051132/pexels-photo-4051132.jpeg?auto=compress&cs=tinysrgb&w=1200"
+        image: "../../references/assets/ecommerce/products/bastoncini-di-mandorla.jpg"
       }
     ];
 
@@ -1575,7 +1561,7 @@
 
     function renderProducts() {
       const groups = [
-        { key: "mandorle", title: "Mandorle", note: "Naturale, pelata, con guscio, Filippo Cea, Tuono" },
+        { key: "mandorle", title: "Mandorle", note: "Con guscio, naturale, pelata" },
         { key: "bio", title: "Bio", note: "Naturale e pelata" },
         { key: "derivati", title: "Derivati", note: "Farina, granella, bastoncini" }
       ];
@@ -1601,7 +1587,7 @@
                       <h3>${product.title}</h3>
                       <p>${product.description}</p>
                       <div class="detail-line">
-                        ${product.tags.map((tag) => `<span>${tag}</span>`).join("")}
+                        ${product.tags.slice(0, 2).map((tag) => `<span>${tag}</span>`).join("")}
                       </div>
                       <div class="format-row">
                         ${product.formats.map((item) => `
