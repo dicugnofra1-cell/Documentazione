@@ -43,6 +43,95 @@ Questo file tiene traccia sintetica delle decisioni, dei cambi di direzione e de
 
 ---
 
+## 2026-05-13
+
+### Stato
+
+- Analizzato il repository backend reale per verificare l'allineamento tra dominio esistente e V1 del backoffice.
+- Confermata una buona base su:
+  - lotti
+  - movimenti
+  - ordini
+  - riserve stock
+  - fornitori
+  - certificazioni
+  - qualita
+  - tracciabilita pubblica
+- Chiarito che la V1 richiede soprattutto flussi applicativi orchestrati, piu che nuovi moduli astratti.
+
+### Decisioni
+
+- La V1 del backoffice deve essere centrata su **entrata merce, lotti e movimenti**, non solo sugli ordini ecommerce.
+- Il lotto resta l'entita centrale del sistema.
+- La disponibilita V1 deve essere letta come:
+  - stock reale da movimenti
+  - meno stock riservato
+- Fatture ingrosso vanno tenute leggere in V1:
+  - documento minimo
+  - niente modulo fiscale avanzato
+
+### Output
+
+- Creato il documento:
+  - [ALLINEAMENTO_V1_BACKOFFICE_DOMINIO.md](/C:/Users/ricca/Documents/Playground/Documentazione/docs/backend/ALLINEAMENTO_V1_BACKOFFICE_DOMINIO.md)
+
+### Prossimi passi
+
+- tradurre l'allineamento V1 in backlog implementativo backend
+- decidere le modifiche minime al dominio per `Entrata merce`
+- allineare il prototipo backoffice ai campi reali della V1
+
+---
+
+## 2026-05-14
+
+### Stato
+
+- Consolidato il modello operativo V1 attorno alla tracciabilita reale della merce.
+- Chiarito che il lotto nasce automaticamente dalla registrazione ingresso.
+- Chiarito che ogni vendita deve restare collegata al lotto realmente usato.
+- Riallineata la struttura del backoffice V1 in modo piu semplice e operativo.
+
+### Decisioni
+
+- `Merce` e il punto di ingresso operativo del sistema.
+- `Lotti` resta l'entita centrale del prodotto.
+- `B2C` e `B2B` condividono lo stesso flusso stock e lotti.
+- `Clienti` si separa solo in anagrafica:
+  - `B2C`
+  - `B2B`
+- `Fatture` serve solo per il canale `B2B`.
+- `Tracciabilita` sostituisce una logica troppo centrata sul solo `QR`.
+- La navigazione V1 fissata e:
+  - Dashboard
+  - Merce
+  - Lotti
+  - Magazzino
+  - Vendite
+  - Clienti
+  - Fatture
+  - Tracciabilita
+
+### Output
+
+- aggiornato:
+  - [ALLINEAMENTO_V1_BACKOFFICE_DOMINIO.md](/C:/Users/ricca/Documents/Playground/Documentazione/docs/backend/ALLINEAMENTO_V1_BACKOFFICE_DOMINIO.md)
+  - [REVISIONE_V1_MINIMALE_BACKOFFICE.md](/C:/Users/ricca/Documents/Playground/Documentazione/docs/backoffice/REVISIONE_V1_MINIMALE_BACKOFFICE.md)
+  - [docs/backend/README.md](/C:/Users/ricca/Documents/Playground/Documentazione/docs/backend/README.md)
+  - [docs/backoffice/README.md](/C:/Users/ricca/Documents/Playground/Documentazione/docs/backoffice/README.md)
+
+### Prossimi passi
+
+- completare la pulizia finale del prototipo backoffice
+- congelare la V1 UI
+- passare al backlog tecnico backend partendo da:
+  - `RegisterGoodsReceipt`
+  - disponibilita reale
+  - assegnazione lotto FIFO
+  - collegamento ordine-lotto-QR
+
+---
+
 ## Regola pratica
 
 Ogni volta che succede una di queste cose, aggiornare il worklog:
