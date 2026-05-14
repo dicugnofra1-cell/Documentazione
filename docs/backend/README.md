@@ -13,6 +13,7 @@ Questa sezione raccoglie note e documenti legati al backend principale.
 ## Documenti
 
 - [ALLINEAMENTO_V1_BACKOFFICE_DOMINIO.md](/C:/Users/ricca/Documents/Playground/Documentazione/docs/backend/ALLINEAMENTO_V1_BACKOFFICE_DOMINIO.md)
+- [V1_DECISIONI_ARCHITETTURALI.md](/C:/Users/ricca/Documents/Playground/Documentazione/docs/backend/V1_DECISIONI_ARCHITETTURALI.md)
 
 ## Focus attuale
 

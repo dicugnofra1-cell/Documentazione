@@ -119,6 +119,7 @@ Questo file tiene traccia sintetica delle decisioni, dei cambi di direzione e de
   - [REVISIONE_V1_MINIMALE_BACKOFFICE.md](/C:/Users/ricca/Documents/Playground/Documentazione/docs/backoffice/REVISIONE_V1_MINIMALE_BACKOFFICE.md)
   - [docs/backend/README.md](/C:/Users/ricca/Documents/Playground/Documentazione/docs/backend/README.md)
   - [docs/backoffice/README.md](/C:/Users/ricca/Documents/Playground/Documentazione/docs/backoffice/README.md)
+  - [V1_DECISIONI_ARCHITETTURALI.md](/C:/Users/ricca/Documents/Playground/Documentazione/docs/backend/V1_DECISIONI_ARCHITETTURALI.md)
 
 ### Prossimi passi
 
